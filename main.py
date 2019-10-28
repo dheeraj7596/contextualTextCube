@@ -5,7 +5,7 @@ from nltk import sent_tokenize
 import pickle
 import flair, torch
 
-flair.device = torch.device('cpu') 
+flair.device = torch.device('cuda:2')
 
 
 def get_sentences(path):
@@ -46,11 +46,16 @@ if __name__ == "__main__":
     tok_vecs = []
     mapping = {}
     i = 0
+    except_counter = 0
 
     print("Getting embeddings..")
     for sentence_ind, sent in enumerate(sentences):
         sentence = Sentence(sent)
-        embedding.embed(sentence)
+        try:
+            embedding.embed(sentence)
+        except:
+            except_counter += 1
+            continue
         for token_ind, token in enumerate(sentence):
             tok_vecs.append(token.embedding.cpu().numpy())
             mapping[i] = {"token": token_ind, "sentence": sentence_ind}
