@@ -3,6 +3,9 @@ from flair.data import Sentence
 from sklearn.cluster import KMeans
 from nltk import sent_tokenize
 import pickle
+import flair, torch
+
+flair.device = torch.device('cpu') 
 
 
 def get_sentences(path):
@@ -32,7 +35,7 @@ def print_results(km, sentences, mapping):
 
 if __name__ == "__main__":
     embedding = BertEmbeddings('bert-base-uncased')
-    basepath = "./data/"
+    basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     dump_dir = basepath + dataset
     path = basepath + dataset + "dataset.txt"
@@ -44,11 +47,12 @@ if __name__ == "__main__":
     mapping = {}
     i = 0
 
+    print("Getting embeddings..")
     for sentence_ind, sent in enumerate(sentences):
         sentence = Sentence(sent)
         embedding.embed(sentence)
         for token_ind, token in enumerate(sentence):
-            tok_vecs.append(token.embedding.detach().numpy())
+            tok_vecs.append(token.embedding.cpu().numpy())
             mapping[i] = {"token": token_ind, "sentence": sentence_ind}
             i += 1
 
