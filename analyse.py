@@ -13,7 +13,9 @@ def get_word_context(token_ind, sentence):
         right = token_ind + 2
     else:
         right = len(sent.tokens)
-    context = sent.tokens[left: right]
+    context = ""
+    for token in sent.tokens[left:right]:
+        context = context + " " + token.text
     return word.text.strip().lower(), context
 
 
