@@ -19,7 +19,7 @@ if __name__ == "__main__":
     labels = km.labels_
 
     word_to_cluster_context = {}
-    for i, label in list(labels):
+    for i, label in enumerate(labels):
         token_ind = mapping[i]["token"]
         sentence_ind = mapping[i]["sentence"]
         word, context = get_word_context(token_ind, sentences[sentence_ind])
