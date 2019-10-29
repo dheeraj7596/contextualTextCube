@@ -42,20 +42,31 @@ if __name__ == "__main__":
     pkl_dump_dir = basepath + dataset
 
     sentences = get_sentences(path)
-    km = KMeans(n_clusters=10)
+    sentences = sentences[:25000]
+    km = KMeans(n_clusters=10, n_jobs=-1)
     tok_vecs = []
     mapping = {}
     i = 0
     except_counter = 0
+    token_length_exceed_counter = 0
 
     print("Getting embeddings..")
+    processed_sentences = []
     for sentence_ind, sent in enumerate(sentences):
+        if sentence_ind % 10000 == 0:
+            print("Finished sentences: " + str(sentence_ind) + " out of " + str(len(sentences)))
         sentence = Sentence(sent)
+        if len(sentence.tokens) > 200:
+            token_length_exceed_counter += 1
+            print("Token length exceeded for : " + str(sentence_ind) + " Token exceed counter: " + str(token_length_exceed_counter))
+            continue
         try:
             embedding.embed(sentence)
-        except:
+        except Exception as e:
             except_counter += 1
+            print("Exception Counter: ", except_counter, sentence_ind, e)
             continue
+        processed_sentences.append(sent)
         for token_ind, token in enumerate(sentence):
             tok_vecs.append(token.embedding.cpu().numpy())
             mapping[i] = {"token": token_ind, "sentence": sentence_ind}
@@ -65,4 +76,5 @@ if __name__ == "__main__":
     km.fit(tok_vecs)
 
     pickle.dump(km, open(pkl_dump_dir + "km.pkl", "wb"))
+    pickle.dump(processed_sentences, open(pkl_dump_dir + "processed_sentences.pkl", "wb"))
     pickle.dump(mapping, open(pkl_dump_dir + "mapping.pkl", "wb"))
