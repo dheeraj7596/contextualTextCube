@@ -5,7 +5,15 @@ from flair.data import Sentence
 def get_word_context(token_ind, sentence):
     sent = Sentence(sentence)
     word = sent.tokens[token_ind]
-    context = sent.tokens[token_ind - 4:token_ind + 4]
+    if token_ind - 2 >= 0:
+        left = token_ind - 2
+    else:
+        left = 0
+    if token_ind + 2 < len(sent.tokens):
+        right = token_ind + 2
+    else:
+        right = len(sent.tokens)
+    context = sent.tokens[left: right]
     return word.text.strip().lower(), context
 
 
