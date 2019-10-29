@@ -76,5 +76,6 @@ if __name__ == "__main__":
     km.fit(tok_vecs)
 
     pickle.dump(km, open(pkl_dump_dir + "km.pkl", "wb"))
+    pickle.dump(sentences, open(pkl_dump_dir + "sentences.pkl", "wb"))
     pickle.dump(processed_sentences, open(pkl_dump_dir + "processed_sentences.pkl", "wb"))
     pickle.dump(mapping, open(pkl_dump_dir + "mapping.pkl", "wb"))
