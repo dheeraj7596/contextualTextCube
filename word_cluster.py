@@ -101,6 +101,6 @@ if __name__ == "__main__":
         word_obj_list[i].cluster = label
 
     print("Dumping pickles..")
-    pickle.dump(km, open(pkl_dump_dir + "km.pkl", "wb"))
-    pickle.dump(sentences, open(pkl_dump_dir + "sentences.pkl", "wb"))
-    pickle.dump(word_obj_list, open(pkl_dump_dir + "word_obj_list.pkl", "wb"))
+    pickle.dump(km, open(pkl_dump_dir + "/km.pkl", "wb"))
+    pickle.dump(sentences, open(pkl_dump_dir + "/sentences.pkl", "wb"))
+    pickle.dump(word_obj_list, open(pkl_dump_dir + "/word_obj_list.pkl", "wb"))
