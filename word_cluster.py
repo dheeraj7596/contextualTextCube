@@ -98,6 +98,7 @@ if __name__ == "__main__":
     print("Fitting KMeans on " + str(len(tok_vecs)) + " tokens..")
     km.fit(tok_vecs)
 
+    print("Visualising..")
     f = visualise(tok_vecs, km.labels_)
     f.savefig(pkl_dump_dir + "/plot.png")
 
