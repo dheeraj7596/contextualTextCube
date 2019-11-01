@@ -53,6 +53,7 @@ if __name__ == "__main__":
     dataset = "nyt/"
 
     word = sys.argv[1]
+    print("WORD: ", word)
     pkl_dump_dir = basepath + dataset + word
     os.makedirs(pkl_dump_dir, exist_ok=True)
 
@@ -99,6 +100,7 @@ if __name__ == "__main__":
     for i, label in enumerate(km.labels_):
         word_obj_list[i].cluster = label
 
+    print("Dumping pickles..")
     pickle.dump(km, open(pkl_dump_dir + "km.pkl", "wb"))
     pickle.dump(sentences, open(pkl_dump_dir + "sentences.pkl", "wb"))
     pickle.dump(word_obj_list, open(pkl_dump_dir + "word_obj_list.pkl", "wb"))
