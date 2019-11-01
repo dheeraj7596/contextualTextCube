@@ -3,6 +3,7 @@ from flair.data import Sentence
 from sklearn.cluster import KMeans
 from analyse import get_word_context
 from nltk import sent_tokenize
+from visualise import visualise
 import pickle
 import flair, torch
 import os
@@ -96,6 +97,9 @@ if __name__ == "__main__":
 
     print("Fitting KMeans on " + str(len(tok_vecs)) + " tokens..")
     km.fit(tok_vecs)
+
+    f = visualise(tok_vecs, km.labels_)
+    f.savefig(pkl_dump_dir + "/plot.png")
 
     for i, label in enumerate(km.labels_):
         word_obj_list[i].cluster = label
