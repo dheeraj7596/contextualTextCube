@@ -99,8 +99,7 @@ if __name__ == "__main__":
     km.fit(tok_vecs)
 
     print("Visualising..")
-    f = visualise(tok_vecs, km.labels_)
-    f.savefig(pkl_dump_dir + "/plot.png")
+    f = visualise(tok_vecs, km.labels_, None, pkl_dump_dir + "/plot.png")
 
     for i, label in enumerate(km.labels_):
         word_obj_list[i].cluster = label
