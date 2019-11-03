@@ -48,9 +48,12 @@ if __name__ == "__main__":
             sim = cosine_similarity(cluster_tokvecs[0][i].reshape(1, -1), cluster_tokvecs[1][ind].reshape(1, -1))[0][0]
             sim_0_1.append(sim)
 
+    plt.figure()
     plt.hist(sim_0, color='blue', edgecolor='black', bins=30)
     plt.savefig(pkl_dump_dir + "/same_cluster_0.png")
+    plt.figure()
     plt.hist(sim_1, color='blue', edgecolor='black', bins=30)
     plt.savefig(pkl_dump_dir + "/same_cluster_1.png")
+    plt.figure()
     plt.hist(sim_0_1, color='blue', edgecolor='black', bins=30)
     plt.savefig(pkl_dump_dir + "/diff_cluster.png")
