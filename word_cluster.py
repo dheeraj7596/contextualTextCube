@@ -104,17 +104,17 @@ if __name__ == "__main__":
     for i, label in enumerate(km.labels_):
         word_obj_list[i].cluster = label
 
+    f0 = open(pkl_dump_dir + "/0.txt", "w")
+    f1 = open(pkl_dump_dir + "/1.txt", "w")
     for word in word_obj_list:
-        f0 = open(pkl_dump_dir + "/0.txt", "w")
-        f1 = open(pkl_dump_dir + "/1.txt", "w")
         if word.cluster == 0:
             f0.write(word.context[1])
             f0.write("\n")
         else:
             f1.write(word.context[1])
             f1.write("\n")
-        f0.close()
-        f1.close()
+    f0.close()
+    f1.close()
 
     print("Dumping pickles..")
     pickle.dump(km, open(pkl_dump_dir + "/km.pkl", "wb"))
