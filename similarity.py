@@ -14,7 +14,7 @@ class Word():
 
 
 if __name__ == "__main__":
-    basepath = "./data/"
+    basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     word = sys.argv[1]
     print("WORD: ", word)
