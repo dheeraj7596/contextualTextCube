@@ -7,6 +7,9 @@ from keras.callbacks import ModelCheckpoint
 from keras_han.model import HAN
 from model import *
 from data_utils import *
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 
 def create_df(dataset):
