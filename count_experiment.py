@@ -2,6 +2,8 @@ from nltk import sent_tokenize, word_tokenize
 from sklearn.preprocessing import LabelEncoder
 from pandas import DataFrame
 from sklearn.metrics import classification_report
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 import operator
 
 
@@ -45,9 +47,20 @@ def get_distinct_labels(dataset):
     return labels, label_count_dict
 
 
-def get_pred_true(df, labels):
-    y_true = []
-    y_pred = []
+def decide_label(count_dict):
+    maxi = 0
+    max_label = None
+    for l in count_dict:
+        min_freq = min(list(count_dict[l].values()))
+        if min_freq > maxi:
+            maxi = min_freq
+            max_label = l
+    return max_label
+
+
+def get_train_data(df, labels, label_term_dict):
+    y = []
+    X = []
     for index, row in df.iterrows():
         line = row["sentence"]
         label = row["label"]
@@ -56,34 +69,25 @@ def get_pred_true(df, labels):
         flag = 0
         for sent in sentences:
             words = word_tokenize(sent)
-            int_labels = list(set(words).intersection(set(labels)))
-            if len(int_labels) == 0:
-                continue
-            prev = words[0]
-            for i, word in enumerate(words):
-                if word in int_labels:
-                    flag = 1
-                    if word not in count_dict:
-                        count_dict[word] = 1
-                    else:
-                        count_dict[word] += 1
-                else:
-                    if i == 0:
-                        continue
-                    else:
-                        temp = prev + "_" + word
-                        if temp in labels:
-                            flag = 1
-                            if temp not in count_dict:
-                                count_dict[temp] = 1
-                            else:
-                                count_dict[temp] += 1
-                prev = word
+            for l in labels:
+                int_labels = list(set(words).intersection(set(label_term_dict[l])))
+                if len(int_labels) == 0:
+                    continue
+                for word in words:
+                    if word in int_labels:
+                        flag = 1
+                        if l not in count_dict:
+                            count_dict[l] = {}
+                        if word not in count_dict[l]:
+                            count_dict[l][word] = 1
+                        else:
+                            count_dict[l][word] += 1
 
         if flag:
-            y_pred.append(max(count_dict.items(), key=operator.itemgetter(1))[0])
-            y_true.append(label)
-    return y_true, y_pred
+            lbl = decide_label(count_dict)
+            y.append(lbl)
+            X.append(line)
+    return X, y
 
 
 if __name__ == "__main__":
@@ -91,22 +95,30 @@ if __name__ == "__main__":
     dataset = "nyt/"
     df = create_df(dataset)
     le = LabelEncoder()
-    labels = ["soccer", "music", "movies", "basketball", "tennis", "business", "television", "economy", "science",
-              "baseball", "politics", "hockey", "football", "golf", "dance", "environment", "abortion", "cosmos",
-              "surveillance", "military", "immigration", "international_business", "energy_companies",
-              "law_enforcement", "gun_control", "gay_rights", "federal_budget"]
-    df = df[df.label.isin(labels)]
-    df = df.reset_index(drop=True)
-    y_true_names, y_pred_names = get_pred_true(df, labels)
-
-    count_dict = {}
-    for name in y_true_names:
-        if name not in count_dict:
-            count_dict[name] = 1
+    labels, label_count_dict = get_distinct_labels(dataset)
+    label_term_dict = {}
+    for i in labels:
+        terms = i.split("_")
+        if i == "stocks_and_bonds":
+            label_term_dict[i] = ["stocks", "bonds"]
+        elif i == "the_affordable_care_act":
+            label_term_dict[i] = ["affordable", "care", "act"]
         else:
-            count_dict[name] += 1
+            label_term_dict[i] = terms
 
-    print("The number of documents that has atleast one label in text: ", len(y_true_names))
-    print("Distribution of labels in the docs that have atleast one label: ", count_dict)
-    print("CLASSIFICATION REPORT: ")
-    print(classification_report(y_true_names, y_pred_names))
+    X, y = get_train_data(df, labels, label_term_dict)
+    vectorizer = TfidfVectorizer()
+
+    X_train = vectorizer.fit_transform(X)
+    y_train = le.fit_transform(y)
+
+    X_test = vectorizer.transform(df["sentence"])
+    y_test = le.inverse_transform(le.transform(df["label"]))
+
+    clf = LogisticRegression(n_jobs=-1)
+    clf.fit(X_train, y_train)
+
+    y_pred = le.inverse_transform(clf.predict(X_test))
+    print(classification_report(y_test, y_pred))
+
+    pass
