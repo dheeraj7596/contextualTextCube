@@ -7,6 +7,7 @@ from keras.callbacks import ModelCheckpoint
 from keras_han.model import HAN
 from model import *
 from data_utils import *
+import pickle
 import os
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "2"
@@ -71,6 +72,7 @@ def decide_label(count_dict):
 def get_train_data(df, labels, label_term_dict):
     y = []
     X = []
+    y_true = []
     for index, row in df.iterrows():
         line = row["sentence"]
         label = row["label"]
@@ -97,7 +99,14 @@ def get_train_data(df, labels, label_term_dict):
             lbl = decide_label(count_dict)
             y.append(lbl)
             X.append(line)
-    return X, y
+            y_true.append(label)
+    return X, y, y_true
+
+
+def dump_data(dump_dir, X, y, y_true):
+    pickle.dump(X, open(dump_dir + "X_with_labels.pkl", "wb"))
+    pickle.dump(y, open(dump_dir + "y_with_labels.pkl", "wb"))
+    pickle.dump(y_true, open(dump_dir + "y_true_with_labels.pkl", "wb"))
 
 
 if __name__ == "__main__":
@@ -112,6 +121,7 @@ if __name__ == "__main__":
     max_words = 20000
     embedding_dim = 100
     batch_size = 290
+    pkl_dump_dir = basepath + dataset
 
     df = create_df(dataset)
     le = LabelEncoder()
@@ -126,7 +136,8 @@ if __name__ == "__main__":
         else:
             label_term_dict[i] = terms
 
-    X, y = get_train_data(df, labels, label_term_dict)
+    X, y, y_true = get_train_data(df, labels, label_term_dict)
+    dump_data(pkl_dump_dir, X, y, y_true)
 
     y_one_hot = make_one_hot(y, label_to_index)
 
@@ -156,13 +167,20 @@ if __name__ == "__main__":
 
     model.fit(X_train, y_train, validation_data=(X_val, y_val), nb_epoch=2, batch_size=100, callbacks=[es, mc])
 
-    X_all = np.vstack((X_train, X_val))
-    y_all = np.vstack((y_train, y_val))
-    pred = model.predict(X_all)
-    print("****************** CLASSIFICATION REPORT ********************")
+    print("****************** CLASSIFICATION REPORT FOR DOCUMENTS WITH LABEL WORDS ********************")
+    X_label_all = prep_data(texts=X, max_sentences=max_sentences, max_sentence_length=max_sentence_length,
+                            tokenizer=tokenizer)
+    pred = model.predict(X_label_all)
     pred_labels = get_from_one_hot(pred, index_to_label)
-    true_labels = get_from_one_hot(y_all, index_to_label)
-    print(classification_report(true_labels, pred_labels))
+    print(classification_report(y_true, pred_labels))
+
+    print("****************** CLASSIFICATION REPORT FOR All DOCUMENTS ********************")
+    X_all = prep_data(texts=df["sentence"], max_sentences=max_sentences, max_sentence_length=max_sentence_length,
+                      tokenizer=tokenizer)
+    y_true_all = df["label"]
+    pred = model.predict(X_all)
+    pred_labels = get_from_one_hot(pred, index_to_label)
+    print(classification_report(y_true_all, pred_labels))
 
     print("Dumping the model...")
     model.save_weights(dump_dir + "model_weights_" + model_name + ".h5")
