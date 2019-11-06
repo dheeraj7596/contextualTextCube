@@ -154,6 +154,7 @@ if __name__ == "__main__":
     dump_data(pkl_dump_dir, X, y, y_true)
 
     # y_one_hot = make_one_hot(y, label_to_index)
+    y = np.array(y)
 
     print("Fitting tokenizer...")
     tokenizer = fit_get_tokenizer(X, max_words)
@@ -176,7 +177,7 @@ if __name__ == "__main__":
     print("model fitting - Hierachical attention network...")
 
     es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
-    mc = ModelCheckpoint(filepath=tmp_dir + 'model.{epoch:02d}-{val_loss:.2f}.hdf5', monitor='val_acc', mode='max',
+    mc = ModelCheckpoint(filepath=tmp_dir + 'model.{epoch:02d}-{val_loss:.2f}.hdf5', monitor='val_loss', mode='min',
                          verbose=1, save_weights_only=True, save_best_only=True)
 
     model.fit(X_train, y_train, validation_data=(X_val, y_val), nb_epoch=100, batch_size=100, callbacks=[es, mc])
