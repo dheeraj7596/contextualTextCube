@@ -1,10 +1,11 @@
 from nltk import sent_tokenize, word_tokenize
-from sklearn.preprocessing import LabelEncoder
 from pandas import DataFrame
 from sklearn.metrics import classification_report
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 from keras_han.model import HAN
+from scipy.special import softmax
+from keras.losses import kullback_leibler_divergence
 from model import *
 from data_utils import *
 import pickle
@@ -58,7 +59,7 @@ def get_distinct_labels(dataset):
     return labels, label_count_dict, label_to_index, index_to_label
 
 
-def decide_label(count_dict):
+def argmax_label(count_dict):
     maxi = 0
     max_label = None
     for l in count_dict:
@@ -69,7 +70,15 @@ def decide_label(count_dict):
     return max_label
 
 
-def get_train_data(df, labels, label_term_dict):
+def softmax_label(count_dict, label_to_index):
+    temp = [0] * len(label_to_index)
+    for l in count_dict:
+        min_freq = min(list(count_dict[l].values()))
+        temp[label_to_index[l]] = min_freq
+    return softmax(temp)
+
+
+def get_train_data(df, labels, label_term_dict, label_to_index):
     y = []
     X = []
     y_true = []
@@ -96,7 +105,8 @@ def get_train_data(df, labels, label_term_dict):
                             count_dict[l][word] += 1
 
         if flag:
-            lbl = decide_label(count_dict)
+            # lbl = argmax_label(count_dict)
+            lbl = softmax_label(count_dict, label_to_index)
             y.append(lbl)
             X.append(line)
             y_true.append(label)
@@ -107,6 +117,19 @@ def dump_data(dump_dir, X, y, y_true):
     pickle.dump(X, open(dump_dir + "X_with_labels.pkl", "wb"))
     pickle.dump(y, open(dump_dir + "y_with_labels.pkl", "wb"))
     pickle.dump(y_true, open(dump_dir + "y_true_with_labels.pkl", "wb"))
+
+
+def get_label_term_dict(labels):
+    label_term_dict = {}
+    for i in labels:
+        terms = i.split("_")
+        if i == "stocks_and_bonds":
+            label_term_dict[i] = ["stocks", "bonds"]
+        elif i == "the_affordable_care_act":
+            label_term_dict[i] = ["affordable", "care", "act"]
+        else:
+            label_term_dict[i] = terms
+    return label_term_dict
 
 
 if __name__ == "__main__":
@@ -124,27 +147,18 @@ if __name__ == "__main__":
     pkl_dump_dir = basepath + dataset
 
     df = create_df(dataset)
-    le = LabelEncoder()
     labels, label_count_dict, label_to_index, index_to_label = get_distinct_labels(dataset)
-    label_term_dict = {}
-    for i in labels:
-        terms = i.split("_")
-        if i == "stocks_and_bonds":
-            label_term_dict[i] = ["stocks", "bonds"]
-        elif i == "the_affordable_care_act":
-            label_term_dict[i] = ["affordable", "care", "act"]
-        else:
-            label_term_dict[i] = terms
+    label_term_dict = get_label_term_dict(labels)
 
-    X, y, y_true = get_train_data(df, labels, label_term_dict)
+    X, y, y_true = get_train_data(df, labels, label_term_dict, label_to_index)
     dump_data(pkl_dump_dir, X, y, y_true)
 
-    y_one_hot = make_one_hot(y, label_to_index)
+    # y_one_hot = make_one_hot(y, label_to_index)
 
     print("Fitting tokenizer...")
     tokenizer = fit_get_tokenizer(X, max_words)
     print("Splitting into train, dev...")
-    X_train, y_train, X_val, y_val = create_train_dev(X, labels=y_one_hot, tokenizer=tokenizer,
+    X_train, y_train, X_val, y_val = create_train_dev(X, labels=y, tokenizer=tokenizer,
                                                       max_sentences=max_sentences,
                                                       max_sentence_length=max_sentence_length,
                                                       max_words=max_words)
@@ -158,10 +172,10 @@ if __name__ == "__main__":
 
     print("Compiling model...")
     model.summary()
-    model.compile(loss="categorical_crossentropy", optimizer='adam', metrics=['acc'])
+    model.compile(loss=kullback_leibler_divergence, optimizer='adam', metrics=['acc'])
     print("model fitting - Hierachical attention network...")
 
-    es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=10)
+    es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
     mc = ModelCheckpoint(filepath=tmp_dir + 'model.{epoch:02d}-{val_loss:.2f}.hdf5', monitor='val_acc', mode='max',
                          verbose=1, save_weights_only=True, save_best_only=True)
 
