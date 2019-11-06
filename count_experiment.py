@@ -10,7 +10,7 @@ from data_utils import *
 
 
 def create_df(dataset):
-    basepath = "./data/"
+    basepath = "/data3/jingbo/dheeraj/"
     path = basepath + dataset + "dataset.txt"
     label_path = basepath + dataset + "labels.txt"
     f = open(path, "r")
@@ -31,7 +31,7 @@ def create_df(dataset):
 
 
 def get_distinct_labels(dataset):
-    basepath = "./data/"
+    basepath = "/data3/jingbo/dheeraj/"
     label_path = basepath + dataset + "labels.txt"
 
     f = open(label_path, "r")
@@ -98,7 +98,7 @@ def get_train_data(df, labels, label_term_dict):
 
 
 if __name__ == "__main__":
-    basepath = "./data/"
+    basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     glove_dir = basepath + "glove.6B"
     model_name = "count_exp"
