@@ -2,6 +2,7 @@ from flair.embeddings import BertEmbeddings
 from flair.data import Sentence
 from sklearn.cluster import KMeans
 from analyse import get_word_context
+from Word import Word
 from nltk import sent_tokenize
 from visualise import visualise
 import pickle
@@ -10,15 +11,6 @@ import os
 import sys
 
 flair.device = torch.device('cuda:2')
-
-
-class Word():
-    def __init__(self, name, context, tok_vec, label, cluster=None):
-        self.name = name
-        self.context = context
-        self.tok_vec = tok_vec
-        self.label = label
-        self.cluster = cluster
 
 
 def get_word_sentences(word, dataset):

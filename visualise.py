@@ -1,4 +1,5 @@
 from sklearn.manifold import TSNE
+from Word import Word
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
@@ -8,15 +9,6 @@ import sys
 sns.set_style('darkgrid')
 sns.set_palette('muted')
 import pickle
-
-
-class Word():
-    def __init__(self, name, context, tok_vec, label, cluster=None):
-        self.name = name
-        self.context = context
-        self.tok_vec = tok_vec
-        self.label = label
-        self.cluster = cluster
 
 
 def fashion_scatter(x, colors, contexts, path):

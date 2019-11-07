@@ -1,5 +1,4 @@
 from nltk import sent_tokenize, word_tokenize
-from pandas import DataFrame
 from sklearn.metrics import classification_report
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
@@ -12,27 +11,6 @@ import pickle
 import os
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "3"
-
-
-def create_df(dataset):
-    basepath = "/data3/jingbo/dheeraj/"
-    path = basepath + dataset + "dataset.txt"
-    label_path = basepath + dataset + "labels.txt"
-    f = open(path, "r")
-    f1 = open(label_path, "r")
-    lines = f.readlines()
-    label_lines = f1.readlines()
-    final_dict = {}
-    final_dict["sentence"] = []
-    final_dict["label"] = []
-
-    for i, line in enumerate(lines):
-        line = line.strip().lower()
-        label_line = label_lines[i].strip()
-        final_dict["sentence"].append(line)
-        final_dict["label"].append(label_line)
-    df = DataFrame(final_dict)
-    return df
 
 
 def get_distinct_labels(dataset):

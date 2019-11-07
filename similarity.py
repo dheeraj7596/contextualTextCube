@@ -2,16 +2,7 @@ import sys
 import pickle
 import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
-
-
-class Word():
-    def __init__(self, name, context, tok_vec, label, cluster=None):
-        self.name = name
-        self.context = context
-        self.tok_vec = tok_vec
-        self.label = label
-        self.cluster = cluster
-
+from Word import Word
 
 if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"

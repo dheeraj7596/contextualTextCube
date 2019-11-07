@@ -3,6 +3,7 @@ from keras.preprocessing.text import text_to_word_sequence
 from nltk import tokenize
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.sequence import pad_sequences
+from pandas import DataFrame
 
 
 def make_one_hot(y, label_to_index):
@@ -59,3 +60,24 @@ def prep_data(max_sentence_length, max_sentences, texts, tokenizer):
 
         data[i] = tokenized_sentences[None, ...]
     return data
+
+
+def create_df(dataset):
+    basepath = "./data/"
+    path = basepath + dataset + "dataset.txt"
+    label_path = basepath + dataset + "labels.txt"
+    f = open(path, "r")
+    f1 = open(label_path, "r")
+    lines = f.readlines()
+    label_lines = f1.readlines()
+    final_dict = {}
+    final_dict["sentence"] = []
+    final_dict["label"] = []
+
+    for i, line in enumerate(lines):
+        line = line.strip().lower()
+        label_line = label_lines[i].strip()
+        final_dict["sentence"].append(line)
+        final_dict["label"].append(label_line)
+    df = DataFrame(final_dict)
+    return df
