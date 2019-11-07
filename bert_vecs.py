@@ -50,5 +50,5 @@ if __name__ == "__main__":
 
     df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
     word_obj_list, word_sent_token_dict = get_all_embeddings(df, embedding)
-    pickle.dump(word_obj_list, open(pkl_dump_dir + "/bert_vecs.pkl", "wb"))
-    pickle.dump(word_sent_token_dict, open(pkl_dump_dir + "/word_sent_token_dict.pkl", "wb"))
+    pickle.dump(word_obj_list, open(pkl_dump_dir + "bert_vecs.pkl", "wb"))
+    pickle.dump(word_sent_token_dict, open(pkl_dump_dir + "word_sent_token_dict.pkl", "wb"))
