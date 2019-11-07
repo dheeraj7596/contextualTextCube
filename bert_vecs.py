@@ -6,7 +6,7 @@ from nltk import sent_tokenize
 import pickle
 import flair, torch
 
-flair.device = torch.device('cuda:2')
+flair.device = torch.device('cuda:1')
 
 
 def get_all_embeddings(df, embedding):
@@ -43,12 +43,17 @@ def get_all_embeddings(df, embedding):
 
 
 if __name__ == "__main__":
+    import sys
+
     embedding = BertEmbeddings('bert-base-uncased')
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
+    start = str(sys.argv[1])
+    end = str(sys.argv[2])
 
     df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
-    word_obj_list, word_sent_token_dict = get_all_embeddings(df, embedding)
-    pickle.dump(word_obj_list, open(pkl_dump_dir + "bert_vecs.pkl", "wb"))
-    pickle.dump(word_sent_token_dict, open(pkl_dump_dir + "word_sent_token_dict.pkl", "wb"))
+    word_obj_list, word_sent_token_dict = get_all_embeddings(df[int(start): int(end)], embedding)
+    pickle.dump(word_obj_list, open(pkl_dump_dir + "wordvecs/bert_vecs_" + str(start) + "_" + str(end) + ".pkl", "wb"))
+    pickle.dump(word_sent_token_dict,
+                open(pkl_dump_dir + "wordvecs/word_sent_token_dict_" + str(start) + "_" + str(end) + ".pkl", "wb"))
