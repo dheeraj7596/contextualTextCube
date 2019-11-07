@@ -28,7 +28,7 @@ def get_all_embeddings(df, embedding):
                 embedding.embed(sentence)
             except Exception as e:
                 except_counter += 1
-                print("Exception Counter: ", except_counter, sentence_ind, e)
+                print("Exception Counter: ", except_counter, sentence_ind, index, e)
                 continue
             for token_ind, token in enumerate(sentence):
                 vec = token.embedding.cpu().numpy()
