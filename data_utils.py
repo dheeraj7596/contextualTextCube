@@ -81,3 +81,15 @@ def create_df(dataset):
         final_dict["label"].append(label_line)
     df = DataFrame(final_dict)
     return df
+
+
+def get_distinct_labels(df):
+    labels = list(set(df["label"]))
+    label_to_index = {}
+    index_to_label = {}
+
+    for i, label in enumerate(labels):
+        label_to_index[label] = i
+        index_to_label[i] = label
+
+    return labels, label_to_index, index_to_label
