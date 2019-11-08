@@ -7,14 +7,16 @@ from nltk.corpus import stopwords
 import pickle
 import numpy as np
 import flair, torch
+import scipy
 
 flair.device = torch.device('cpu')
 
 
-def get_tok_vecs(word, df):
+def get_tok_vecs(word, df, A_TD, word_index):
     tok_vecs = []
-    for index, row in df.iterrows():
-        line = row["sentence"]
+    doc_indexes = np.nonzero(A_TD[word_index, :])[1]
+    for index in doc_indexes:
+        line = df["sentence"][index]
         sentences = sent_tokenize(line)
         for sentence_ind, sent in enumerate(sentences):
             sentence = Sentence(sent)
@@ -27,9 +29,9 @@ def get_tok_vecs(word, df):
     return tok_vecs
 
 
-def cluster_analyse(word, df, threshold=0.7):
+def cluster_analyse(word, df, A_TD, word_index, threshold=0.7):
     km = KMeans(n_clusters=2, n_jobs=-1)
-    tok_vecs = get_tok_vecs(word, df)
+    tok_vecs = get_tok_vecs(word, df, A_TD, word_index)
     km.fit(tok_vecs)
     cc = km.cluster_centers_
     sim = cosine_similarity(cc[0].reshape(1, -1), cc[1].reshape(1, -1))[0][0]
@@ -53,10 +55,13 @@ def to_tokenized_string(sentence):
     return tokenized
 
 
-def make_word_cluster(df, embedding):
+def make_word_cluster(df, embedding, A_TD, word_to_index):
     stop_words = set(stopwords.words('english'))
+    stop_words.add('would')
     word_cluster = {}
     for index, row in df.iterrows():
+        if index % 100 == 0:
+            print("Finished rows: " + str(index) + " out of " + str(len(df)))
         line = row["sentence"]
         sentences = sent_tokenize(line)
         for sentence_ind, sent in enumerate(sentences):
@@ -67,7 +72,7 @@ def make_word_cluster(df, embedding):
                 if word in stop_words:
                     continue
                 if word not in word_cluster:
-                    cc = cluster_analyse(word, df)
+                    cc = cluster_analyse(word, df, A_TD, word_to_index[word])
                     if len(cc) == 2:
                         tok_vec = token.embedding.cpu().numpy()
                         word_cluster[word] = cc
@@ -101,15 +106,23 @@ def make_word_vec(word_cluster):
 
 if __name__ == "__main__":
     embedding = BertEmbeddings('bert-base-uncased')
-    basepath = "./data/"
+    basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
     df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
+    A_TD_sparse = scipy.sparse.load_npz(pkl_dump_dir + "A_TD_sparse_uncontextualized.npz")
+    word_to_index = pickle.load(open(pkl_dump_dir + "word_to_index_uncontextualized.pkl", "rb"))
+    index_to_word = pickle.load(open(pkl_dump_dir + "index_to_word_uncontextualized.pkl", "rb"))
 
-    df, word_cluster = make_word_cluster(df, embedding)
+    A_TD = A_TD_sparse.todense()
+    df, word_cluster = make_word_cluster(df, embedding, A_TD, word_to_index)
 
+    print("Dumping df..")
     pickle.dump(df, open(pkl_dump_dir + "df_contextualized.pkl", "wb"))
 
+    print("Dumping word_cluster..")
+    pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster_center.pkl", "wb"))
+
+    print("Dumping word_vec..")
     word_vec = make_word_vec(word_cluster)
     pickle.dump(word_vec, open(pkl_dump_dir + "word_2_bertvec.pkl", "wb"))
-    pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster_center.pkl", "wb"))
