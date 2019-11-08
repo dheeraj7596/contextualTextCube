@@ -30,8 +30,11 @@ def get_tok_vecs(word, df, A_TD, word_index):
 
 
 def cluster_analyse(word, df, A_TD, word_index, threshold=0.7):
-    km = KMeans(n_clusters=2, n_jobs=-1)
+    num_clusters = 2
+    km = KMeans(n_clusters=num_clusters, n_jobs=-1)
     tok_vecs = get_tok_vecs(word, df, A_TD, word_index)
+    if len(tok_vecs) < num_clusters:
+        return tok_vecs
     km.fit(tok_vecs)
     cc = km.cluster_centers_
     sim = cosine_similarity(cc[0].reshape(1, -1), cc[1].reshape(1, -1))[0][0]
