@@ -9,16 +9,7 @@ import string
 def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
     num_clusters = 2
     except_counter = 0
-    dirs = os.listdir(word_dump_dir)
-    dir_set = set()
-    for dir in dirs:
-        dir_new = dir.translate(str.maketrans('', '', string.punctuation))
-        if len(dir_new) == 0:
-            continue
-        if dir_new in dirs:
-            dir_set.add(dir_new)
-        else:
-            dir_set.add(dir)
+    dir_set = get_relevant_dirs(word_dump_dir)
     print("Length of DIR_SET: ", len(dir_set))
 
     for word_index, word in enumerate(dir_set):
@@ -53,6 +44,25 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
                     cc = [np.mean(tok_vecs, axis=0)]
 
                 pickle.dump(cc, open(word_cluster_dump_dir + "/cc.pkl", "wb"))
+
+
+def get_relevant_dirs(word_dump_dir):
+    dirs = os.listdir(word_dump_dir)
+    dir_dict = {}
+    for dir in dirs:
+        dir_dict[dir] = 1
+
+    dir_set = set()
+    for dir in dirs:
+        dir_new = dir.translate(str.maketrans('', '', string.punctuation))
+        if len(dir_new) == 0:
+            continue
+        try:
+            temp = dir_dict[dir_new]
+            dir_set.add(dir_new)
+        except:
+            dir_set.add(dir)
+    return dir_set
 
 
 if __name__ == "__main__":
