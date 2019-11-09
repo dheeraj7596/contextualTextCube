@@ -6,7 +6,7 @@ import pickle
 import flair, torch
 import os
 
-flair.device = torch.device('cuda:1')
+flair.device = torch.device('cuda:3')
 
 
 def get_all_embeddings(df, embedding, pkl_dump_dir):
@@ -40,7 +40,11 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
                 if len(bert_vecs) > 10000:
                     continue
                 bert_vecs.append(vec)
-                pickle.dump(bert_vecs, open(fname, "wb"))
+                try:
+                    pickle.dump(bert_vecs, open(fname, "wb"))
+                except Exception as e:
+                    except_counter += 1
+                    print("Exception Counter: ", except_counter, sentence_ind, index, word, e)
 
 
 if __name__ == "__main__":
