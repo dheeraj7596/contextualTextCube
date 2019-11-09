@@ -2,6 +2,7 @@ from flair.embeddings import BertEmbeddings
 from flair.data import Sentence
 from nltk import sent_tokenize
 from nltk.corpus import stopwords
+from collections import defaultdict
 import pickle
 import flair, torch
 import os
@@ -10,6 +11,7 @@ flair.device = torch.device('cuda:3')
 
 
 def get_all_embeddings(df, embedding, pkl_dump_dir):
+    word_counter = defaultdict(int)
     stop_words = set(stopwords.words('english'))
     stop_words.add("would")
     except_counter = 0
@@ -29,19 +31,15 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
                 continue
             for token_ind, token in enumerate(sentence):
                 word = token.text
-                if word in stop_words:
+                if word in stop_words or "/" in word:
                     continue
-                fname = pkl_dump_dir + word + "_.pkl"
+                dump_dir = pkl_dump_dir + word
+                os.makedirs(dump_dir, exist_ok=True)
+                fname = dump_dir + "/" + str(word_counter[word]) + ".pkl"
+                word_counter[word] += 1
                 vec = token.embedding.cpu().numpy()
-                if os.path.isfile(fname):
-                    bert_vecs = pickle.load(open(fname, "rb"))
-                else:
-                    bert_vecs = []
-                if len(bert_vecs) > 10000:
-                    continue
-                bert_vecs.append(vec)
                 try:
-                    pickle.dump(bert_vecs, open(fname, "wb"))
+                    pickle.dump(vec, open(fname, "wb"))
                 except Exception as e:
                     except_counter += 1
                     print("Exception Counter: ", except_counter, sentence_ind, index, word, e)
