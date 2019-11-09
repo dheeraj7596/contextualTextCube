@@ -2,16 +2,26 @@ from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
 import numpy as np
-import flair, torch
 import os
-
-flair.device = torch.device('cuda:3')
+import string
 
 
 def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
     num_clusters = 2
     except_counter = 0
-    for word_index, word in enumerate(os.listdir(word_dump_dir)):
+    dirs = os.listdir(word_dump_dir)
+    dir_set = set()
+    for dir in dirs:
+        dir_new = dir.translate(str.maketrans('', '', string.punctuation))
+        if len(dir_new) == 0:
+            continue
+        if dir_new in dirs:
+            dir_set.add(dir_new)
+        else:
+            dir_set.add(dir)
+    print("Length of DIR_SET: ", len(dir_set))
+
+    for word_index, word in enumerate(dir_set):
         if word_index % 100 == 0:
             print("Finished words: " + str(word_index))
         if os.path.isdir(os.path.join(word_dump_dir, word)):
@@ -19,7 +29,7 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
             filepaths = [os.path.join(word_dir, o) for o in os.listdir(word_dir) if
                          os.path.isfile(os.path.join(word_dir, o))]
             tok_vecs = []
-            for path in filepaths:
+            for path in filepaths[:1000]:
                 try:
                     vec = pickle.load(open(path, "rb"))
                     tok_vecs.append(vec)
