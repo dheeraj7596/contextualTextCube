@@ -47,13 +47,17 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
 
 
 def get_relevant_dirs(word_dump_dir):
+    print("Getting relevant dirs..")
     dirs = os.listdir(word_dump_dir)
     dir_dict = {}
     for dir in dirs:
         dir_dict[dir] = 1
 
+    print("Dir dict ready..")
     dir_set = set()
-    for dir in dirs:
+    for i, dir in enumerate(dirs):
+        if i % 1000 == 0:
+            print("Finished checking dirs: " + str(i) + " out of: " + str(len(dirs)))
         dir_new = dir.translate(str.maketrans('', '', string.punctuation))
         if len(dir_new) == 0:
             continue
