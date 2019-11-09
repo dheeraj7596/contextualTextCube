@@ -9,7 +9,7 @@ def analyse(word_dump_dir, freq):
             word_dir = os.path.join(word_dump_dir, word)
             filepaths = [os.path.join(word_dir, o) for o in os.listdir(word_dir) if
                          os.path.isfile(os.path.join(word_dir, o))]
-            if len(filepaths) >= freq:
+            if len(filepaths) <= freq:
                 count += 1
     return count
 
