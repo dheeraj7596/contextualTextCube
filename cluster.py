@@ -30,7 +30,9 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
             word_cluster_dump_dir = cluster_dump_dir + word
             os.makedirs(word_cluster_dump_dir, exist_ok=True)
 
-            if len(tok_vecs) > 0 and len(tok_vecs) < num_clusters:
+            if len(tok_vecs) == 0:
+                continue
+            if len(tok_vecs) < num_clusters:
                 pickle.dump(tok_vecs, open(word_cluster_dump_dir + "/cc.pkl", "wb"))
             else:
                 km.fit(tok_vecs)
