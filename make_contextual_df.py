@@ -26,6 +26,7 @@ def to_tokenized_string(sentence):
 def make_word_cluster(df, embedding, cluster_dump_dir):
     stop_words = set(stopwords.words('english'))
     stop_words.add('would')
+    except_counter = 0
     word_cluster = {}
 
     for index, row in df.iterrows():
@@ -42,8 +43,13 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
                     continue
                 word_cluster_dump_dir = cluster_dump_dir + word
                 if word not in word_cluster:
-                    cc = pickle.load(open(word_cluster_dump_dir + "/cc.pkl", "rb"))
-                    word_cluster[word] = cc
+                    try:
+                        cc = pickle.load(open(word_cluster_dump_dir + "/cc.pkl", "rb"))
+                        word_cluster[word] = cc
+                    except Exception as e:
+                        except_counter += 1
+                        print("Exception Counter: ", except_counter, index, e)
+                        continue
                 else:
                     cc = word_cluster[word]
                 if len(cc) == 2:
