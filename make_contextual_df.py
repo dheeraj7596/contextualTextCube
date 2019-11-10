@@ -46,24 +46,26 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
                 if len(word_clean) == 0 or word_clean in stop_words:
                     continue
 
-                if word_clean in word_cluster:
+                try:
                     cc = word_cluster[word_clean]
-                elif word in word_cluster:
-                    cc = word_cluster[word]
-                else:
-                    word_clean_path = cluster_dump_dir + word_clean + "/cc.pkl"
-                    word_path = cluster_dump_dir + word + "/cc.pkl"
+                except:
                     try:
-                        cc = pickle.load(open(word_clean_path, "rb"))
-                        word_cluster[word_clean] = cc
+                        cc = word_cluster[word]
                     except:
+                        word_clean_path = cluster_dump_dir + word_clean + "/cc.pkl"
+                        word_path = cluster_dump_dir + word + "/cc.pkl"
                         try:
-                            cc = pickle.load(open(word_path, "rb"))
-                            word_cluster[word] = cc
-                        except Exception as e:
-                            except_counter += 1
-                            print("Exception Counter: ", except_counter, index, e)
-                            continue
+                            cc = pickle.load(open(word_clean_path, "rb"))
+                            word_cluster[word_clean] = cc
+                        except:
+                            try:
+                                cc = pickle.load(open(word_path, "rb"))
+                                word_cluster[word] = cc
+                            except Exception as e:
+                                except_counter += 1
+                                print("Exception Counter: ", except_counter, index, e)
+                                continue
+
                 if len(cc) == 2:
                     tok_vec = token.embedding.cpu().numpy()
                     cluster = get_cluster(tok_vec, cc)
