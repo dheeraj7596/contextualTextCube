@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
 import pickle
 import flair, torch
+import string
 
 flair.device = torch.device('cuda:1')
 
@@ -41,17 +42,28 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
                 word = token.text
                 if word in stop_words:
                     continue
-                word_cluster_dump_dir = cluster_dump_dir + word
-                if word not in word_cluster:
-                    try:
-                        cc = pickle.load(open(word_cluster_dump_dir + "/cc.pkl", "rb"))
-                        word_cluster[word] = cc
-                    except Exception as e:
-                        except_counter += 1
-                        print("Exception Counter: ", except_counter, index, e)
-                        continue
-                else:
+                word_clean = word.translate(str.maketrans('', '', string.punctuation))
+                if len(word_clean) == 0 or word_clean in stop_words:
+                    continue
+
+                if word_clean in word_cluster:
+                    cc = word_cluster[word_clean]
+                elif word in word_cluster:
                     cc = word_cluster[word]
+                else:
+                    word_clean_path = cluster_dump_dir + word_clean + "/cc.pkl"
+                    word_path = cluster_dump_dir + word + "/cc.pkl"
+                    try:
+                        cc = pickle.load(open(word_clean_path, "rb"))
+                        word_cluster[word_clean] = cc
+                    except:
+                        try:
+                            cc = pickle.load(open(word_path, "rb"))
+                            word_cluster[word] = cc
+                        except Exception as e:
+                            except_counter += 1
+                            print("Exception Counter: ", except_counter, index, e)
+                            continue
                 if len(cc) == 2:
                     tok_vec = token.embedding.cpu().numpy()
                     cluster = get_cluster(tok_vec, cc)
@@ -72,7 +84,7 @@ if __name__ == "__main__":
     df, word_cluster = make_word_cluster(df, embedding, cluster_dump_dir)
 
     print("Dumping df..")
-    pickle.dump(df, open(pkl_dump_dir + "df_contextualized.pkl", "wb"))
+    pickle.dump(df, open(pkl_dump_dir + "df_contextualized_clean.pkl", "wb"))
 
     print("Dumping word_cluster..")
-    pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster.pkl", "wb"))
+    pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster_clean.pkl", "wb"))
