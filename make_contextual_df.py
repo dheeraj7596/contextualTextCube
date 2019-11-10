@@ -86,5 +86,7 @@ if __name__ == "__main__":
     print("Dumping df..")
     pickle.dump(df, open(pkl_dump_dir + "df_contextualized_clean.pkl", "wb"))
 
+    df.to_excel(pkl_dump_dir + "df_contextualized_clean.xlsx")
+
     print("Dumping word_cluster..")
     pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster_clean.pkl", "wb"))
