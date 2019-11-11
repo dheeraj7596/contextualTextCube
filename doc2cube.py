@@ -172,14 +172,22 @@ if __name__ == "__main__":
     threshold = 0.8
 
     for i in range(t):
+        print("ITERATION: ", i)
+        print("Computing R_DL..")
         R_DL = np.matmul(U_D, np.transpose(U_L))
+        print("Computing R_TL..")
         R_TL = np.matmul(A_TD, R_DL)
         R_TL = apply_softmax(R_TL)
+        print("Computing Dim focal score..")
         f_dim_focal_score = compute_dim_focal_score(R_TL)
+        print("Updating U_D..")
         U_D = update_UD(U_T, A_TD, f_dim_focal_score)
+        print("Updating A_LT..")
         A_LT = update_ALT(A_LT, R_TL, index_to_word, len(df), docfreq, threshold=0.8)
         print_A_LT(A_LT, index_to_label, index_to_word)
+        print("Updating A_L..")
         U_L = np.matmul(A_LT, U_T)
+        print("*" * 80)
 
     preds = []
     for u in U_D:
