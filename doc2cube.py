@@ -126,7 +126,7 @@ def compute_dim_focal_score(R_TL):
 def update_UD(U_T, A_TD, f_dim_focal_score):
     f_list = list(f_dim_focal_score)
     term_count, doc_count = A_TD.shape
-    f_mat = np.transpose(np.array([f_list] * doc_count))
+    f_mat = np.tile(np.array([f_list]).transpose(), (1, doc_count))
     weight = np.multiply(A_TD, f_mat)
     return np.matmul(np.transpose(weight), U_T)
 
