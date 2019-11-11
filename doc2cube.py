@@ -119,7 +119,7 @@ def compute_dim_focal_score(R_TL):
         uniform = np.array([1 / label_count] * label_count)
         temp = R_TL[i][:]
         kl = entropy(uniform, temp)
-        f_dim_focal_score.append(kl)
+        f_dim_focal_score.append(kl / np.log(label_count))
     return f_dim_focal_score
 
 
