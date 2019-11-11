@@ -47,6 +47,8 @@ def dump_clean(df, word_cluster):
     stop_words.add('would')
     word_vec = {}
     for index, row in df.iterrows():
+        if index % 100 == 0:
+            print("Finished rows: " + str(index) + " out of " + str(len(df)))
         line = row["sentence"]
         words = line.strip().split()
         new_words = []
