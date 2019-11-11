@@ -118,7 +118,7 @@ def compute_dim_focal_score(R_TL):
     for i in range(term_count):
         uniform = np.array([1 / label_count] * label_count)
         temp = R_TL[i][:]
-        kl = entropy(uniform, temp)
+        kl = entropy(temp, uniform)
         f_dim_focal_score.append(kl / np.log(label_count))
     return f_dim_focal_score
 
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     A_TD = get_ATD(df, word_to_index)
     U_D = np.transpose(A_TD)
     docfreq = get_doc_freq(df)
-    t = 5
+    t = 3
     threshold = 0.8
 
     for i in range(t):
@@ -183,7 +183,7 @@ if __name__ == "__main__":
         print("Updating U_D..")
         U_D = update_UD(U_T, A_TD, f_dim_focal_score)
         print("Updating A_LT..")
-        A_LT = update_ALT(A_LT, R_TL, index_to_word, len(df), docfreq, threshold=0.8)
+        A_LT = update_ALT(A_LT, R_TL, index_to_word, len(df), docfreq, threshold)
         print_A_LT(A_LT, index_to_label, index_to_word)
         print("Updating A_L..")
         U_L = np.matmul(A_LT, U_T)
