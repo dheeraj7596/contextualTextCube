@@ -168,7 +168,7 @@ if __name__ == "__main__":
     A_TD = get_ATD(df, word_to_index)
     U_D = np.transpose(A_TD)
     docfreq = get_doc_freq(df)
-    t = 200
+    t = 50
     threshold = 0.6
 
     for i in range(t):
