@@ -5,7 +5,7 @@ import string
 
 def get_vec(word, word_cluster, stop_words):
     if word in stop_words:
-        return None
+        return []
     t = word.split("$")
     if len(t) == 1:
         prefix = t[0]
@@ -28,7 +28,7 @@ def get_vec(word, word_cluster, stop_words):
 
     word_clean = prefix.translate(str.maketrans('', '', string.punctuation))
     if len(word_clean) == 0 or word_clean in stop_words:
-        return None
+        return []
     try:
         vec = word_cluster[word_clean][cluster]
     except:
@@ -38,7 +38,7 @@ def get_vec(word, word_cluster, stop_words):
             try:
                 vec = word_cluster[word][0]
             except:
-                vec = None
+                vec = []
     return vec
 
 
@@ -57,7 +57,7 @@ def dump_clean(df, word_cluster):
                 vec = word_vec[word]
             except:
                 vec = get_vec(word, word_cluster, stop_words)
-                if not vec:
+                if len(vec) == 0:
                     continue
                 word_vec[word] = vec
             new_words.append(word)
