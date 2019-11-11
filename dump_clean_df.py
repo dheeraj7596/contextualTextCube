@@ -70,7 +70,7 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "/df_contextualized_clean.xlsx", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_contextualized_clean.pkl", "rb"))
     word_cluster = pickle.load(open(pkl_dump_dir + "word_cluster_clean.pkl", "rb"))
     df, word_vec = dump_clean(df, word_cluster)
 
