@@ -137,7 +137,7 @@ def update_ALT(A_LT, R_TL, index_to_word, num_docs, docfreq, threshold=0.8):
         for j in range(label_count):
             temp = R_TL[i][j] * (docfreq[index_to_word[i]] / num_docs)
             if temp > threshold:
-                A_LT[i][j] = 1
+                A_LT[j][i] = 1
     return A_LT
 
 
