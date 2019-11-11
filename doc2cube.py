@@ -193,11 +193,11 @@ if __name__ == "__main__":
     for u in U_D:
         maxi_sim = -1
         maxi_l = None
-        for l in U_L:
+        for i, l in enumerate(U_L):
             sim = cosine_similarity(u.reshape(1, -1), l.reshape(1, -1))[0][0]
             if sim > maxi_sim:
                 maxi_sim = sim
-                maxi_l = l
+                maxi_l = i
         preds.append(index_to_label[maxi_l])
 
     print(classification_report(df["label"], preds))
