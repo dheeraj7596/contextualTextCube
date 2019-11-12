@@ -27,10 +27,20 @@ def argmax_label(count_dict):
     maxi = 0
     max_label = None
     for l in count_dict:
-        min_freq = min(list(count_dict[l].values()))
-        if min_freq > maxi:
-            maxi = min_freq
+        count = 0
+        for t in count_dict[l]:
+            count += count_dict[l][t]
+        if count > maxi:
+            maxi = count
             max_label = l
+
+    # maxi = 0
+    # max_label = None
+    # for l in count_dict:
+    #     min_freq = min(list(count_dict[l].values()))
+    #     if min_freq > maxi:
+    #         maxi = min_freq
+    #         max_label = l
     return max_label
 
 
