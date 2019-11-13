@@ -62,7 +62,7 @@ def get_inv_doc_freq(df):
 
 
 def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label, word_to_index,
-                           index_to_word, inv_docfreq):
+                           index_to_word, inv_docfreq, it):
     label_docs_dict = {}
     label_count = len(label_to_index)
     term_count = len(word_to_index)
@@ -88,7 +88,8 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
 
     word_map = {}
     for l in range(label_count):
-        inds = E_LT[l].argsort()[::-1][:10]
+        n = 10 * (it + 1)
+        inds = E_LT[l].argsort()[::-1][:n]
         for word_ind in inds:
             word = index_to_word[word_ind]
             try:
@@ -97,6 +98,7 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
                     word_map[word] = (index_to_label[l], E_LT[l][word_ind])
             except:
                 word_map[word] = (index_to_label[l], E_LT[l][word_ind])
+    label_term_dict = defaultdict(set)
     for word in word_map:
         label, val = word_map[word]
         label_term_dict[label].add(word)
@@ -132,6 +134,6 @@ if __name__ == "__main__":
         pred_labels = train_classifier(df, labels, label_term_dict, label_to_index, index_to_label, i)
         print("Updating label term dict..")
         label_term_dict = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label,
-                                                 word_to_index, index_to_word, inv_docfreq)
+                                                 word_to_index, index_to_word, inv_docfreq, i)
         print_label_term_dict(label_term_dict)
         print("#" * 80)
