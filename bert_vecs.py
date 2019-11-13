@@ -5,9 +5,10 @@ from nltk.corpus import stopwords
 from collections import defaultdict
 import pickle
 import flair, torch
+import string
 import os
 
-flair.device = torch.device('cuda:3')
+flair.device = torch.device('cuda:1')
 
 
 def get_all_embeddings(df, embedding, pkl_dump_dir):
@@ -31,7 +32,8 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
                 continue
             for token_ind, token in enumerate(sentence):
                 word = token.text
-                if word in stop_words or "/" in word:
+                word.translate(str.maketrans('', '', string.punctuation))
+                if word in stop_words or "/" in word or len(word) == 0 or word_counter[word] >= 1500:
                     continue
                 dump_dir = pkl_dump_dir + word
                 os.makedirs(dump_dir, exist_ok=True)
@@ -50,7 +52,7 @@ if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
-    word_dump_dir = basepath + dataset + "wordvecs/"
+    word_dump_dir = basepath + dataset + "wordvecs_new/"
 
     df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
     get_all_embeddings(df, embedding, word_dump_dir)
