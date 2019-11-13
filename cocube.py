@@ -16,7 +16,7 @@ def create_index(word_vec):
 
 
 def get_label_term_dict(labels, word_vec):
-    label_term_dict = defaultdict(list)
+    label_term_dict = defaultdict(set)
     for i in labels:
         terms = i.split("_")
         if i == "stocks_and_bonds":
@@ -27,17 +27,17 @@ def get_label_term_dict(labels, word_vec):
         for term in terms:
             try:
                 temp = word_vec[term]
-                label_term_dict[i].append(term)
+                label_term_dict[i].add(term)
             except:
                 pass
             try:
                 temp = word_vec[term + "$0"]
-                label_term_dict[i].append(term + "$0")
+                label_term_dict[i].add(term + "$0")
             except:
                 pass
             try:
                 temp = word_vec[term + "$1"]
-                label_term_dict[i].append(term + "$1")
+                label_term_dict[i].add(term + "$1")
             except:
                 pass
 
@@ -99,7 +99,7 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
                 word_map[word] = (index_to_label[l], E_LT[l][word_ind])
     for word in word_map:
         label, val = word_map[word]
-        label_term_dict[label].append(word)
+        label_term_dict[label].add(word)
     return label_term_dict
 
 
