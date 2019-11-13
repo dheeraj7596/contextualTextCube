@@ -18,28 +18,51 @@ def create_index(word_vec):
 def get_label_term_dict(labels, word_vec):
     label_term_dict = defaultdict(set)
     for i in labels:
-        terms = i.split("_")
         if i == "stocks_and_bonds":
-            terms = ["stocks", "bonds"]
+            terms = ["stocks", "bonds$1"]
+            label_term_dict[i] = set(terms)
         elif i == "the_affordable_care_act":
-            terms = ["affordable", "care", "act"]
-
-        for term in terms:
-            try:
-                temp = word_vec[term]
-                label_term_dict[i].add(term)
-            except:
-                pass
-            try:
-                temp = word_vec[term + "$0"]
-                label_term_dict[i].add(term + "$0")
-            except:
-                pass
-            try:
-                temp = word_vec[term + "$1"]
-                label_term_dict[i].add(term + "$1")
-            except:
-                pass
+            terms = ["affordable$0 care$0"]
+            label_term_dict[i] = set(terms)
+        elif i == "gun_control":
+            terms = ["gun control"]
+            label_term_dict[i] = set(terms)
+        elif i == "federal_budget":
+            terms = ["federal budget"]
+            label_term_dict[i] = set(terms)
+        elif i == "energy_companies":
+            terms = ["energy companies"]
+            label_term_dict[i] = set(terms)
+        elif i == "cosmos":
+            terms = ["cosmos$1"]
+            label_term_dict[i] = set(terms)
+        elif i == "gay_rights":
+            terms = ["gay rights"]
+            label_term_dict[i] = set(terms)
+        elif i == "international_business":
+            terms = ["international business"]
+            label_term_dict[i] = set(terms)
+        elif i == "law_enforcement":
+            terms = ["law$1 enforcement"]
+            label_term_dict[i] = set(terms)
+        else:
+            terms = i.split("_")
+            for term in terms:
+                try:
+                    temp = word_vec[term]
+                    label_term_dict[i].add(term)
+                except:
+                    pass
+                try:
+                    temp = word_vec[term + "$0"]
+                    label_term_dict[i].add(term + "$0")
+                except:
+                    pass
+                try:
+                    temp = word_vec[term + "$1"]
+                    label_term_dict[i].add(term + "$1")
+                except:
+                    pass
 
     return label_term_dict
 

@@ -28,6 +28,8 @@ def argmax_label(count_dict, it):
     max_label = None
     if it == 0:
         for l in count_dict:
+            if len(count_dict[l]) == 0:
+                continue
             min_freq = min(list(count_dict[l].values()))
             if min_freq > maxi:
                 maxi = min_freq
@@ -53,6 +55,41 @@ def softmax_label(count_dict, label_to_index):
     return softmax(temp)
 
 
+def add_phrase_keys(count_dict, l, seed_phrases):
+    if len(seed_phrases) == 0:
+        return count_dict
+
+    for ph in seed_phrases:
+        words = ph.split()
+        int_words = set(words).intersection(set(list(count_dict[l].keys())))
+        if len(int_words) == len(words):
+            mini = count_dict[l][words[0]]
+            for word in words:
+                if count_dict[l][word] < mini:
+                    mini = count_dict[l][word]
+            count_dict[l][ph] = mini
+    return count_dict
+
+
+def delete_phrase_words(count_dict, l, seed_phrases):
+    if len(seed_phrases) == 0:
+        return count_dict
+    for ph in seed_phrases:
+        words = ph.split()
+        for word in words:
+            try:
+                del count_dict[l][word]
+            except:
+                pass
+    return count_dict
+
+
+def post_process(count_dict, l, seed_phrases):
+    count_dict = add_phrase_keys(count_dict, l, seed_phrases)
+    count_dict = delete_phrase_words(count_dict, l, seed_phrases)
+    return count_dict
+
+
 def get_train_data(df, labels, label_term_dict, it):
     y = []
     X = []
@@ -64,7 +101,15 @@ def get_train_data(df, labels, label_term_dict, it):
         count_dict = {}
         flag = 0
         for l in labels:
-            int_labels = list(set(words).intersection(set(label_term_dict[l])))
+            seed_phrases = []
+            seed_words = set()
+            for w in label_term_dict[l]:
+                if len(w.split()) > 1:
+                    seed_phrases.append(w)
+                    seed_words.update(set(w.split()))
+                else:
+                    seed_words.add(w)
+            int_labels = list(set(words).intersection(seed_words))
             if len(int_labels) == 0:
                 continue
             for word in words:
@@ -78,9 +123,11 @@ def get_train_data(df, labels, label_term_dict, it):
                         count_dict[l][word] += 1
                     except:
                         count_dict[l][word] = 1
-
+            count_dict = post_process(count_dict, l, seed_phrases)
         if flag:
             lbl = argmax_label(count_dict, it)
+            if not lbl:
+                continue
             # lbl = softmax_label(count_dict, label_to_index)
             y.append(lbl)
             X.append(line)
