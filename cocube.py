@@ -28,19 +28,19 @@ def get_label_term_dict(labels, word_vec):
             terms = ["gun control"]
             label_term_dict[i] = set(terms)
         elif i == "federal_budget":
-            terms = ["federal budget"]
+            terms = ["tax", "debt"]
             label_term_dict[i] = set(terms)
         elif i == "energy_companies":
-            terms = ["energy companies"]
+            terms = ["energy", "solar"]
             label_term_dict[i] = set(terms)
         elif i == "cosmos":
-            terms = ["cosmos$1"]
+            terms = ["space$0", "nasa", "planets"]
             label_term_dict[i] = set(terms)
         elif i == "gay_rights":
             terms = ["gay rights"]
             label_term_dict[i] = set(terms)
         elif i == "international_business":
-            terms = ["international business"]
+            terms = ["bank", "european", "euro"]
             label_term_dict[i] = set(terms)
         elif i == "law_enforcement":
             terms = ["law$1 enforcement"]
