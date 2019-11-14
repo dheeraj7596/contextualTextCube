@@ -136,6 +136,12 @@ def print_label_term_dict(label_term_dict):
             print(val)
 
 
+def get_label_term_json(pkl_dump_dir):
+    import json
+    dic = json.load(open(pkl_dump_dir + "seedwords.json", "r"))
+    return dic
+
+
 if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
@@ -146,7 +152,8 @@ if __name__ == "__main__":
 
     word_to_index, index_to_word = create_index(word_vec)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    label_term_dict = get_label_term_dict(labels, word_vec)
+    label_term_dict = get_label_term_json(pkl_dump_dir)
+    # label_term_dict = get_label_term_dict(labels, word_vec)
     inv_docfreq = get_inv_doc_freq(df)
 
     t = 5
