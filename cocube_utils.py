@@ -23,26 +23,16 @@ def get_distinct_labels(df):
     return labels, label_to_index, index_to_label
 
 
-def argmax_label(count_dict, it):
+def argmax_label(count_dict):
     maxi = 0
     max_label = None
-    if it == 0:
-        for l in count_dict:
-            if len(count_dict[l]) == 0:
-                continue
-            min_freq = min(list(count_dict[l].values()))
-            if min_freq > maxi:
-                maxi = min_freq
-                max_label = l
-
-    else:
-        for l in count_dict:
-            count = 0
-            for t in count_dict[l]:
-                count += count_dict[l][t]
-            if count > maxi:
-                maxi = count
-                max_label = l
+    for l in count_dict:
+        count = 0
+        for t in count_dict[l]:
+            count += count_dict[l][t]
+        if count > maxi:
+            maxi = count
+            max_label = l
 
     return max_label
 
@@ -90,7 +80,7 @@ def post_process(count_dict, l, seed_phrases):
     return count_dict
 
 
-def get_train_data(df, labels, label_term_dict, it):
+def get_train_data(df, labels, label_term_dict):
     y = []
     X = []
     y_true = []
@@ -125,7 +115,7 @@ def get_train_data(df, labels, label_term_dict, it):
                         count_dict[l][word] = 1
             count_dict = post_process(count_dict, l, seed_phrases)
         if flag:
-            lbl = argmax_label(count_dict, it)
+            lbl = argmax_label(count_dict)
             if not lbl:
                 continue
             # lbl = softmax_label(count_dict, label_to_index)
@@ -148,7 +138,7 @@ def get_label_term_dict(labels):
     return label_term_dict
 
 
-def train_classifier(df, labels, label_term_dict, label_to_index, index_to_label, it):
+def train_classifier(df, labels, label_term_dict, label_to_index, index_to_label):
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     glove_dir = basepath + "glove.6B"
@@ -162,7 +152,7 @@ def train_classifier(df, labels, label_term_dict, label_to_index, index_to_label
     max_words = 20000
     embedding_dim = 100
 
-    X, y, y_true = get_train_data(df, labels, label_term_dict, it)
+    X, y, y_true = get_train_data(df, labels, label_term_dict)
     y_one_hot = make_one_hot(y, label_to_index)
     # y = np.array(y)
     print("Fitting tokenizer...")

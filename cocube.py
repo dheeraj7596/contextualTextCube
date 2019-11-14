@@ -154,7 +154,7 @@ if __name__ == "__main__":
     for i in range(t):
         print("ITERATION ", i)
         print("Going to train classifier..")
-        pred_labels = train_classifier(df, labels, label_term_dict, label_to_index, index_to_label, i)
+        pred_labels = train_classifier(df, labels, label_term_dict, label_to_index, index_to_label)
         print("Updating label term dict..")
         label_term_dict = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label,
                                                  word_to_index, index_to_word, inv_docfreq, i)
