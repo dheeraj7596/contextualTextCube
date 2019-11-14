@@ -22,28 +22,40 @@ def get_label_term_dict(labels, word_vec):
             terms = ["stocks", "bonds$1"]
             label_term_dict[i] = set(terms)
         elif i == "the_affordable_care_act":
-            terms = ["affordable$0 care$0"]
+            terms = ["health", "coverage", "medicaid"]
             label_term_dict[i] = set(terms)
         elif i == "gun_control":
-            terms = ["gun control"]
+            terms = ["background$0", "firearms", "shooting$1"]
             label_term_dict[i] = set(terms)
         elif i == "federal_budget":
             terms = ["tax", "debt"]
             label_term_dict[i] = set(terms)
         elif i == "energy_companies":
-            terms = ["energy", "solar"]
+            terms = ["energy", "solar", "gas"]
+            label_term_dict[i] = set(terms)
+        elif i == "immigration":
+            terms = ["citizenship", "immigrant", "illegal"]
             label_term_dict[i] = set(terms)
         elif i == "cosmos":
-            terms = ["space$0", "nasa", "planets"]
+            terms = ["space$0", "kepler", "planets"]
             label_term_dict[i] = set(terms)
         elif i == "gay_rights":
             terms = ["gay rights"]
+            label_term_dict[i] = set(terms)
+        elif i == "business":
+            terms = ["sales", "battery", "airlines"]
             label_term_dict[i] = set(terms)
         elif i == "international_business":
             terms = ["bank", "european", "euro"]
             label_term_dict[i] = set(terms)
         elif i == "law_enforcement":
-            terms = ["law$1 enforcement"]
+            terms = ["police", "judge$1", "prosecutors"]
+            label_term_dict[i] = set(terms)
+        elif i == "military":
+            terms = ["military", "marine", "army"]
+            label_term_dict[i] = set(terms)
+        elif i == "politics":
+            terms = ["democrats", "president$1", "senate"]
             label_term_dict[i] = set(terms)
         else:
             terms = i.split("_")
@@ -152,11 +164,11 @@ if __name__ == "__main__":
 
     word_to_index, index_to_word = create_index(word_vec)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    label_term_dict = get_label_term_json(pkl_dump_dir)
-    # label_term_dict = get_label_term_dict(labels, word_vec)
+    # label_term_dict = get_label_term_json(pkl_dump_dir)
+    label_term_dict = get_label_term_dict(labels, word_vec)
     inv_docfreq = get_inv_doc_freq(df)
 
-    t = 5
+    t = 10
 
     for i in range(t):
         print("ITERATION ", i)
