@@ -117,9 +117,10 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
         X = vect.fit_transform(docs)
         X_arr = X.toarray()
         rel_freq = np.sum(X_arr, axis=0) / len(docs)
+        rel_doc_freq = np.count_nonzero(X_arr, axis=0) / len(docs)
         names = vect.get_feature_names()
         for i, name in enumerate(names):
-            E_LT[label_to_index[l]][word_to_index[name]] = rel_freq[i] * inv_docfreq[name]
+            E_LT[label_to_index[l]][word_to_index[name]] = rel_freq[i] * rel_doc_freq[i] * inv_docfreq[name]
 
     word_map = {}
     for l in range(label_count):
