@@ -123,6 +123,7 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
             E_LT[label_to_index[l]][word_to_index[name]] = rel_freq[i]
 
     for l in range(label_count):
+        zero_counter = 0
         for t in range(term_count):
             if E_LT[l][t] == 0:
                 continue
@@ -132,7 +133,10 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
             den = np.nanmax(temp_list)
             if den == 0:
                 den = 0.0000000001
-            E_LT[l][t] = E_LT[l][t] * inv_docfreq[index_to_word[t]] / den
+                zero_counter += 1
+            temp = E_LT[l][t] / den
+            E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
+        print(index_to_label[l], zero_counter)
 
     word_map = {}
     for l in range(label_count):
