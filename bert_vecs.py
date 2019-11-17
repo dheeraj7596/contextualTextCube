@@ -32,7 +32,7 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
                 continue
             for token_ind, token in enumerate(sentence):
                 word = token.text
-                word.translate(str.maketrans('', '', string.punctuation))
+                word = word.translate(str.maketrans('', '', string.punctuation))
                 if word in stop_words or "/" in word or len(word) == 0 or word_counter[word] >= 1500:
                     continue
                 dump_dir = pkl_dump_dir + word
