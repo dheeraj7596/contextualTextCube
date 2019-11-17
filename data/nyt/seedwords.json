@@ -14,50 +14,13 @@
     "firearms",
     "shooting$1"
   ],
-  "music": [
-    "song",
-    "album",
-    "music"
-  ],
-  "dance": [
-    "choreographer",
-    "dance",
-    "ballet"
-  ],
   "law_enforcement": [
     "police",
     "judge$1",
     "prosecutors"
   ],
   "gay_rights": [
-    "scouts$0",
-    "couples$1",
-    "same-sex"
-  ],
-  "abortion": [
-    "anti-abortion",
-    "abortion",
-    "state$1"
-  ],
-  "golf": [
-    "woods",
-    "course$1",
-    "tour$0"
-  ],
-  "tennis": [
-    "open$0",
-    "williams",
-    "djokovic"
-  ],
-  "football": [
-    "n.f.l.",
-    "giants",
-    "quarterback"
-  ],
-  "basketball": [
-    "kidd",
-    "n.b.a.",
-    "knicks"
+    "gay rights"
   ],
   "energy_companies": [
     "energy",
@@ -69,16 +32,6 @@
     "species",
     "wildlife"
   ],
-  "hockey": [
-    "n.h.l.",
-    "rangers",
-    "islanders"
-  ],
-  "television": [
-    "viewers",
-    "series$0",
-    "show's$1"
-  ],
   "immigration": [
     "citizenship",
     "immigrant",
@@ -89,45 +42,20 @@
     "marine",
     "army"
   ],
-  "surveillance": [
-    "government",
-    "n.s.a.",
-    "surveillance"
-  ],
   "cosmos": [
     "kepler",
     "space$0",
     "planets"
-  ],
-  "economy": [
-    "prices",
-    "growth$1",
-    "economic"
   ],
   "the_affordable_care_act": [
     "medicaid",
     "coverage",
     "health"
   ],
-  "movies": [
-    "films",
-    "movie",
-    "oscar$1"
-  ],
-  "baseball": [
-    "run$1",
-    "hits$1",
-    "innings"
-  ],
   "business": [
     "sales",
     "battery",
     "airlines"
-  ],
-  "soccer": [
-    "league",
-    "soccer",
-    "champions$0"
   ],
   "stocks_and_bonds": [
     "earnings",
@@ -138,9 +66,5 @@
     "bank",
     "european",
     "chinese"
-  ],
-  "science": [
-    "research",
-    "study"
   ]
 }

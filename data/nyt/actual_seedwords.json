@@ -1,0 +1,146 @@
+{
+  "politics": [
+    "democrats",
+    "president$1",
+    "senate"
+  ],
+  "federal_budget": [
+    "tax",
+    "spending$1",
+    "debt"
+  ],
+  "gun_control": [
+    "background$0",
+    "firearms",
+    "shooting$1"
+  ],
+  "music": [
+    "song",
+    "album",
+    "music"
+  ],
+  "dance": [
+    "choreographer",
+    "dance",
+    "ballet"
+  ],
+  "law_enforcement": [
+    "police",
+    "judge$1",
+    "prosecutors"
+  ],
+  "gay_rights": [
+    "scouts$0",
+    "couples$1",
+    "same-sex"
+  ],
+  "abortion": [
+    "anti-abortion",
+    "abortion",
+    "state$1"
+  ],
+  "golf": [
+    "woods",
+    "course$1",
+    "tour$0"
+  ],
+  "tennis": [
+    "open$0",
+    "williams",
+    "djokovic"
+  ],
+  "football": [
+    "n.f.l.",
+    "giants",
+    "quarterback"
+  ],
+  "basketball": [
+    "kidd",
+    "n.b.a.",
+    "knicks"
+  ],
+  "energy_companies": [
+    "energy",
+    "solar",
+    "gas"
+  ],
+  "environment": [
+    "carbon",
+    "species",
+    "wildlife"
+  ],
+  "hockey": [
+    "n.h.l.",
+    "rangers",
+    "islanders"
+  ],
+  "television": [
+    "viewers",
+    "series$0",
+    "show's$1"
+  ],
+  "immigration": [
+    "citizenship",
+    "immigrant",
+    "illegal"
+  ],
+  "military": [
+    "military",
+    "marine",
+    "army"
+  ],
+  "surveillance": [
+    "government",
+    "n.s.a.",
+    "surveillance"
+  ],
+  "cosmos": [
+    "kepler",
+    "space$0",
+    "planets"
+  ],
+  "economy": [
+    "prices",
+    "growth$1",
+    "economic"
+  ],
+  "the_affordable_care_act": [
+    "medicaid",
+    "coverage",
+    "health"
+  ],
+  "movies": [
+    "films",
+    "movie",
+    "oscar$1"
+  ],
+  "baseball": [
+    "run$1",
+    "hits$1",
+    "innings"
+  ],
+  "business": [
+    "sales",
+    "battery",
+    "airlines"
+  ],
+  "soccer": [
+    "league",
+    "soccer",
+    "champions$0"
+  ],
+  "stocks_and_bonds": [
+    "earnings",
+    "stocks",
+    "investors"
+  ],
+  "international_business": [
+    "bank",
+    "european",
+    "chinese"
+  ],
+  "science": [
+    "research",
+    "study"
+  ]
+}
