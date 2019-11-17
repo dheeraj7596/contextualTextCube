@@ -66,5 +66,50 @@
     "bank",
     "european",
     "chinese"
+  ],
+  "abortion": [
+    "abortion"
+  ],
+  "science": [
+    "science"
+  ],
+  "music": [
+    "music"
+  ],
+  "baseball": [
+    "baseball"
+  ],
+  "economy": [
+    "economy"
+  ],
+  "television": [
+    "television"
+  ],
+  "golf": [
+    "golf"
+  ],
+  "tennis": [
+    "tennis"
+  ],
+  "hockey": [
+    "hockey"
+  ],
+  "football": [
+    "football"
+  ],
+  "dance": [
+    "dance"
+  ],
+  "movies": [
+    "movies"
+  ],
+  "soccer": [
+    "soccer"
+  ],
+  "surveillance": [
+    "surveillance"
+  ],
+  "basketball": [
+    "basketball"
   ]
 }
