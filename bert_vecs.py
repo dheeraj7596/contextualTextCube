@@ -23,7 +23,7 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
         line = row["sentence"]
         sentences = sent_tokenize(line)
         for sentence_ind, sent in enumerate(sentences):
-            sentence = Sentence(sent)
+            sentence = Sentence(sent, use_tokenizer=True)
             try:
                 embedding.embed(sentence)
             except Exception as e:
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
-    word_dump_dir = basepath + dataset + "wordvecs_new/"
+    word_dump_dir = basepath + dataset + "wordvecs_tokenized/"
 
     df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
     get_all_embeddings(df, embedding, word_dump_dir)
