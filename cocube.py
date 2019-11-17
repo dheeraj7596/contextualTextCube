@@ -1,60 +1,10 @@
 from cocube_utils import get_distinct_labels, train_classifier
+from coc_data_utils import *
 from sklearn.feature_extraction.text import CountVectorizer
 from collections import defaultdict
 import pickle
 import numpy as np
 import copy
-
-
-def get_label_term_json(pkl_dump_dir):
-    import json
-    dic = json.load(open(pkl_dump_dir + "seedwords.json", "r"))
-    return dic
-
-
-def create_index(word_vec):
-    word_to_index = {}
-    index_to_word = {}
-    words = list(word_vec.keys())
-    for i, word in enumerate(words):
-        word_to_index[word] = i
-        index_to_word[i] = word
-    return word_to_index, index_to_word
-
-
-def print_label_term_dict(label_term_dict):
-    for label in label_term_dict:
-        print(label)
-        print("*" * 80)
-        for val in label_term_dict[label]:
-            print(val)
-
-
-def get_inv_doc_freq(df):
-    docfreq = {}
-    for index, row in df.iterrows():
-        line = row["sentence"]
-        words = line.strip().split()
-        temp_set = set(words)
-        for w in temp_set:
-            try:
-                docfreq[w] += 1
-            except:
-                docfreq[w] = 1
-    N = len(df)
-    for word in docfreq:
-        docfreq[word] = np.log(N / docfreq[word])
-    return docfreq
-
-
-def get_label_docs_dict(df, label_term_dict, pred_labels):
-    label_docs_dict = {}
-    for l in label_term_dict:
-        label_docs_dict[l] = []
-    for index, row in df.iterrows():
-        line = row["sentence"]
-        label_docs_dict[pred_labels[index]].append(line)
-    return label_docs_dict
 
 
 def update(E_LT, index_to_label, index_to_word, it, label_count):
@@ -100,15 +50,14 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
         for t in range(term_count):
             if E_LT[l][t] == 0:
                 continue
-            # col_list = list(E_LT[:, t])
-            # temp_list = copy.deepcopy(col_list)
-            # temp_list.pop(l)
-            # den = np.nanmax(temp_list)
-            # if den == 0:
-            #     den = 0.0000000001
-            #     zero_counter += 1
-            # temp = E_LT[l][t] / den
-            temp = E_LT[l][t]
+            col_list = list(E_LT[:, t])
+            temp_list = copy.deepcopy(col_list)
+            temp_list.pop(l)
+            den = np.nanmax(temp_list)
+            if den == 0:
+                den = 1
+                zero_counter += 1
+            temp = E_LT[l][t] / den
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
         print(index_to_label[l], zero_counter)
 
@@ -127,8 +76,11 @@ if __name__ == "__main__":
     word_to_index, index_to_word = create_index(word_vec)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
     label_term_dict = get_label_term_json(pkl_dump_dir)
-    inv_docfreq = get_inv_doc_freq(df)
 
+    docfreq = get_doc_freq(df)
+    inv_docfreq = get_inv_doc_freq(df, docfreq)
+
+    df = modify_df(df, docfreq, 5)
     t = 10
 
     for i in range(t):
