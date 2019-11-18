@@ -20,7 +20,7 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
             filepaths = [os.path.join(word_dir, o) for o in os.listdir(word_dir) if
                          os.path.isfile(os.path.join(word_dir, o))]
             tok_vecs = []
-            for path in filepaths[:1000]:
+            for path in filepaths[:1500]:
                 try:
                     vec = pickle.load(open(path, "rb"))
                     tok_vecs.append(vec)
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    word_dump_dir = pkl_dump_dir + "wordvecs/"
-    cluster_dump_dir = pkl_dump_dir + "clusters/"
+    word_dump_dir = pkl_dump_dir + "wordvecs_tokenized_fresh/"
+    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_fresh/"
 
     cluster_all_embeddings(word_dump_dir, cluster_dump_dir)
