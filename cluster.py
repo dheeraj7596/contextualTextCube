@@ -29,6 +29,7 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
                     print("Exception Counter: ", except_counter, word_index, e)
 
             if len(tok_vecs) == 0:
+                print("Length of tok_vecs is 0: ", word)
                 continue
 
             word_cluster_dump_dir = cluster_dump_dir + word
@@ -44,6 +45,8 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
                     cc = [np.mean(tok_vecs, axis=0)]
 
                 pickle.dump(cc, open(word_cluster_dump_dir + "/cc.pkl", "wb"))
+        else:
+            print("Not a directory: ", os.path.join(word_dump_dir, word))
 
 
 def get_relevant_dirs(word_dump_dir):
