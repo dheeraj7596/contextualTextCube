@@ -70,14 +70,14 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_contextualized_clean.pkl", "rb"))
-    word_cluster = pickle.load(open(pkl_dump_dir + "word_cluster_clean.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean.pkl", "rb"))
+    word_cluster = pickle.load(open(pkl_dump_dir + "word_cluster_tokenized_clean.pkl", "rb"))
     df, word_vec = dump_clean(df, word_cluster)
 
     print("Dumping df..")
-    pickle.dump(df, open(pkl_dump_dir + "df_contextualized_clean_removed_stopwords.pkl", "wb"))
+    pickle.dump(df, open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords.pkl", "wb"))
 
-    df.to_excel(pkl_dump_dir + "df_contextualized_clean_removed_stopwords.xlsx")
+    df.to_excel(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords.xlsx")
 
     print("Dumping word_vec..")
-    pickle.dump(word_vec, open(pkl_dump_dir + "word_vec_clean_removed_stopwords.pkl", "wb"))
+    pickle.dump(word_vec, open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "wb"))
