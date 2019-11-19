@@ -36,7 +36,7 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
         line = row["sentence"]
         sentences = sent_tokenize(line)
         for sentence_ind, sent in enumerate(sentences):
-            sentence = Sentence(sent)
+            sentence = Sentence(sent, use_tokenizer=True)
             embedding.embed(sentence)
             for token_ind, token in enumerate(sentence):
                 word = token.text
@@ -80,15 +80,15 @@ if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
-    cluster_dump_dir = pkl_dump_dir + "clusters/"
+    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_fresh/"
 
     df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
     df, word_cluster = make_word_cluster(df, embedding, cluster_dump_dir)
 
     print("Dumping df..")
-    pickle.dump(df, open(pkl_dump_dir + "df_contextualized_clean.pkl", "wb"))
+    pickle.dump(df, open(pkl_dump_dir + "df_tokenized_contextualized_clean.pkl", "wb"))
 
-    df.to_excel(pkl_dump_dir + "df_contextualized_clean.xlsx")
+    df.to_excel(pkl_dump_dir + "df_tokenized_contextualized_clean.xlsx")
 
     print("Dumping word_cluster..")
-    pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster_clean.pkl", "wb"))
+    pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster_tokenized_clean.pkl", "wb"))
