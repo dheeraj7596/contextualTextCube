@@ -5,8 +5,8 @@
     "senate"
   ],
   "federal_budget": [
-    "tax",
-    "spending",
+    "cuts",
+    "budget",
     "debt"
   ],
   "gun_control": [
@@ -15,12 +15,14 @@
     "firearms"
   ],
   "law_enforcement": [
-    "police",
+    "death",
     "judge$0",
     "prosecutors"
   ],
   "gay_rights": [
-    "gay rights"
+    "gay",
+    "marriage",
+    "same-sex"
   ],
   "energy_companies": [
     "energy",
@@ -28,29 +30,29 @@
     "gas"
   ],
   "environment": [
-    "carbon",
-    "species",
+    "climate",
+    "fish$0",
     "wildlife"
   ],
   "immigration": [
     "immigration",
-    "citizenship",
-    "illegal"
+    "immigrants",
+    "citizenship"
   ],
   "military": [
     "military",
-    "defense$0",
+    "pentagon",
     "army"
   ],
   "cosmos": [
-    "astronomers",
-    "space$0",
-    "planets"
+    "spacecraft",
+    "sun",
+    "kepler"
   ],
   "the_affordable_care_act": [
     "medicaid",
     "coverage",
-    "health"
+    "insurance"
   ],
   "business": [
     "sales",
@@ -71,7 +73,8 @@
     "abortion"
   ],
   "science": [
-    "science"
+    "science",
+    "research"
   ],
   "music": [
     "music"
@@ -83,7 +86,9 @@
     "economy"
   ],
   "television": [
-    "television"
+    "episode",
+    "episodes",
+    "viewers"
   ],
   "golf": [
     "golf"
@@ -107,7 +112,9 @@
     "soccer"
   ],
   "surveillance": [
-    "surveillance"
+    "surveillance",
+    "intelligence",
+    "snowden"
   ],
   "basketball": [
     "basketball"
