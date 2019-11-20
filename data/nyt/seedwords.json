@@ -10,7 +10,8 @@
     "debt"
   ],
   "gun_control": [
-    "background$1",
+    "guns",
+    "weapons",
     "firearms"
   ],
   "law_enforcement": [
@@ -23,7 +24,7 @@
   ],
   "energy_companies": [
     "energy",
-    "solar",
+    "oil",
     "gas"
   ],
   "environment": [
@@ -32,17 +33,17 @@
     "wildlife"
   ],
   "immigration": [
+    "immigration",
     "citizenship",
-    "immigrant",
     "illegal"
   ],
   "military": [
     "military",
-    "marine",
+    "defense$0",
     "army"
   ],
   "cosmos": [
-    "kepler",
+    "astronomers",
     "space$0",
     "planets"
   ],
@@ -53,7 +54,7 @@
   ],
   "business": [
     "sales",
-    "battery",
+    "batteries",
     "airlines"
   ],
   "stocks_and_bonds": [
@@ -64,7 +65,7 @@
   "international_business": [
     "bank",
     "european",
-    "chinese"
+    "china"
   ],
   "abortion": [
     "abortion"
