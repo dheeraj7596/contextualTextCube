@@ -12,6 +12,15 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 
+def create_training_df(X, y, y_true):
+    dic = {}
+    dic["Data"] = X
+    dic["Training label"] = y
+    dic["True label"] = y_true
+    df_X = DataFrame(dic)
+    return df_X
+
+
 def get_distinct_labels(df):
     label_to_index = {}
     index_to_label = {}
@@ -153,6 +162,10 @@ def train_classifier(df, labels, label_term_dict, label_to_index, index_to_label
     embedding_dim = 100
 
     X, y, y_true = get_train_data(df, labels, label_term_dict)
+    print("****************** CLASSIFICATION REPORT FOR TRAINING DATA ********************")
+    print(classification_report(y_true, y))
+    df_train = create_training_df(X, y, y_true)
+    df_train.to_excel(basepath + dataset + "training_label.xlsx")
     y_one_hot = make_one_hot(y, label_to_index)
     # y = np.array(y)
     print("Fitting tokenizer...")
