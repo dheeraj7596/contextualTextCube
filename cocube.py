@@ -57,7 +57,8 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
             if den == 0:
                 den = 1
                 zero_counter += 1
-            temp = E_LT[l][t] / den
+            temp = E_LT[l][t]
+            # temp = E_LT[l][t] / den
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
         print(index_to_label[l], zero_counter)
 
@@ -70,8 +71,8 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_contextualized_clean_removed_stopwords.pkl", "rb"))
-    word_vec = pickle.load(open(pkl_dump_dir + "word_vec_clean_removed_stopwords.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords.pkl", "rb"))
+    word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
 
     word_to_index, index_to_word = create_index(word_vec)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
@@ -80,7 +81,7 @@ if __name__ == "__main__":
     docfreq = get_doc_freq(df)
     inv_docfreq = get_inv_doc_freq(df, docfreq)
 
-    df = modify_df(df, docfreq, 5)
+    # df = modify_df(df, docfreq, 5)
     t = 10
 
     for i in range(t):

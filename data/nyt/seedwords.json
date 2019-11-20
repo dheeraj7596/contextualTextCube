@@ -1,22 +1,21 @@
 {
   "politics": [
     "democrats",
-    "president$1",
+    "president",
     "senate"
   ],
   "federal_budget": [
     "tax",
-    "spending$1",
+    "spending",
     "debt"
   ],
   "gun_control": [
-    "background$0",
-    "firearms",
-    "shooting$1"
+    "background$1",
+    "firearms"
   ],
   "law_enforcement": [
     "police",
-    "judge$1",
+    "judge$0",
     "prosecutors"
   ],
   "gay_rights": [

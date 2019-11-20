@@ -142,7 +142,7 @@ def train_classifier(df, labels, label_term_dict, label_to_index, index_to_label
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     glove_dir = basepath + "glove.6B"
-    model_name = "cocube"
+    model_name = "cocube_tok"
     dump_dir = basepath + "models/" + dataset + model_name + "/"
     tmp_dir = basepath + "checkpoints/" + dataset + model_name + "/"
     os.makedirs(dump_dir, exist_ok=True)
