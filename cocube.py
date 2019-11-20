@@ -43,7 +43,7 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
         rel_freq = np.sum(X_arr, axis=0) / len(docs)
         names = vect.get_feature_names()
         for i, name in enumerate(names):
-            E_LT[label_to_index[l]][word_to_index[name]] = rel_freq[i]
+            E_LT[label_to_index[l]][word_to_index[name]] = np.tanh(rel_freq[i])
 
     for l in range(label_count):
         zero_counter = 0
@@ -87,9 +87,12 @@ if __name__ == "__main__":
     for i in range(t):
         print("ITERATION ", i)
         print("Going to train classifier..")
-        pred_labels = train_classifier(df, labels, label_term_dict, label_to_index, index_to_label)
         if i == 0:
-            pickle.dump(pred_labels, open(pkl_dump_dir + "seedwords_pred.pkl", "wb"))
+            pred_labels = pickle.load(open(pkl_dump_dir + "seedwords_pred.pkl", "rb"))
+        else:
+            pred_labels = train_classifier(df, labels, label_term_dict, label_to_index, index_to_label)
+        # if i == 0:
+        #     pickle.dump(pred_labels, open(pkl_dump_dir + "seedwords_pred.pkl", "wb"))
         print("Updating label term dict..")
         label_term_dict = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label,
                                                  word_to_index, index_to_word, inv_docfreq, i)
