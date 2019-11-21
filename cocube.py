@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from collections import defaultdict
 import pickle
 import numpy as np
+import sys
 import copy
 
 
@@ -73,6 +74,7 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
 
 
 if __name__ == "__main__":
+    pre_trained = int(sys.argv[1])
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
@@ -93,7 +95,7 @@ if __name__ == "__main__":
     for i in range(t):
         print("ITERATION ", i)
         print("Going to train classifier..")
-        if i == 0:
+        if i == 0 and pre_trained == 1:
             pred_labels = pickle.load(open(pkl_dump_dir + "seedwords_pred.pkl", "rb"))
         else:
             pred_labels = train_classifier(df, labels, label_term_dict, label_to_index, index_to_label)
