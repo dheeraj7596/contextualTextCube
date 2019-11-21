@@ -8,34 +8,27 @@ import sys
 import copy
 
 
-def update(E_LT, index_to_label, index_to_word, it, label_count):
-    word_map = {}
-    for l in range(label_count):
-        n = 10 * (it + 1)
-        inds = E_LT[l].argsort()[::-1][:n]
-        for word_ind in inds:
-            word = index_to_word[word_ind]
-            try:
-                temp = word_map[word]
-                if E_LT[l][word_ind] > temp[1]:
-                    word_map[word] = (index_to_label[l], E_LT[l][word_ind])
-            except:
-                word_map[word] = (index_to_label[l], E_LT[l][word_ind])
-    label_term_dict = defaultdict(set)
-    for word in word_map:
-        label, val = word_map[word]
-        label_term_dict[label].add(word)
-    return label_term_dict
-
-
-def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label, word_to_index,
-                           index_to_word, inv_docfreq, it, doc_freq_thresh=5):
-    label_count = len(label_to_index)
-    term_count = len(word_to_index)
-    label_docs_dict = get_label_docs_dict(df, label_term_dict, pred_labels)
-
+def get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index,
+                       term_count, word_to_index):
     E_LT = np.zeros((label_count, term_count))
+    for l in label_docs_dict:
+        docs = label_docs_dict[l]
+        vect = CountVectorizer(vocabulary=list(word_to_index.keys()), tokenizer=lambda x: x.split())
+        X = vect.fit_transform(docs)
+        X_arr = X.toarray()
+        rel_freq = np.sum(X_arr, axis=0) / len(docs)
+        names = vect.get_feature_names()
+        for i, name in enumerate(names):
+            E_LT[label_to_index[l]][word_to_index[name]] = np.tanh(rel_freq[i])
+    for l in range(label_count):
+        for t in range(term_count):
+            E_LT[l][t] = E_LT[l][t] * inv_docfreq[index_to_word[t]]
+    return E_LT
 
+
+def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq, label_count, label_docs_dict,
+                         label_to_index, term_count, word_to_index):
+    E_LT = np.zeros((label_count, term_count))
     for l in label_docs_dict:
         docs = label_docs_dict[l]
         docfreq = calculate_doc_freq(docs)
@@ -51,7 +44,6 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
             except:
                 continue
             E_LT[label_to_index[l]][word_to_index[name]] = rel_freq[i]
-
     for l in range(label_count):
         zero_counter = 0
         for t in range(term_count):
@@ -64,12 +56,61 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
             if den == 0:
                 den = 0.0001
                 zero_counter += 1
-            # temp = E_LT[l][t]
             temp = E_LT[l][t] / den
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
         print(index_to_label[l], zero_counter)
+    return E_LT
 
-    label_term_dict = update(E_LT, index_to_label, index_to_word, it, label_count)
+
+def update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2):
+    word_map = {}
+    for l in range(label_count):
+        n = n1 * (it + 1)
+        inds_popular = E_LT[l].argsort()[::-1][:n]
+
+        if not np.any(F_LT):
+            n = 0
+        else:
+            n = n2 * (it + 1)
+        inds_exclusive = F_LT[l].argsort()[::-1][:n]
+
+        for word_ind in inds_popular:
+            word = index_to_word[word_ind]
+            try:
+                temp = word_map[word]
+                if E_LT[l][word_ind] > temp[1]:
+                    word_map[word] = (index_to_label[l], E_LT[l][word_ind])
+            except:
+                word_map[word] = (index_to_label[l], E_LT[l][word_ind])
+
+        for word_ind in inds_exclusive:
+            word = index_to_word[word_ind]
+            try:
+                temp = word_map[word]
+                if F_LT[l][word_ind] > temp[1]:
+                    word_map[word] = (index_to_label[l], F_LT[l][word_ind])
+            except:
+                word_map[word] = (index_to_label[l], F_LT[l][word_ind])
+
+    label_term_dict = defaultdict(set)
+    for word in word_map:
+        label, val = word_map[word]
+        label_term_dict[label].add(word)
+    return label_term_dict
+
+
+def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label, word_to_index,
+                           index_to_word, inv_docfreq, it, n1, n2, doc_freq_thresh=5):
+    label_count = len(label_to_index)
+    term_count = len(word_to_index)
+    label_docs_dict = get_label_docs_dict(df, label_term_dict, pred_labels)
+
+    E_LT = get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index, term_count,
+                              word_to_index)
+    F_LT = get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq, label_count,
+                                label_docs_dict, label_to_index, term_count, word_to_index)
+
+    label_term_dict = update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2)
     return label_term_dict
 
 
@@ -103,6 +144,6 @@ if __name__ == "__main__":
         #     pickle.dump(pred_labels, open(pkl_dump_dir + "seedwords_pred.pkl", "wb"))
         print("Updating label term dict..")
         label_term_dict = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label,
-                                                 word_to_index, index_to_word, inv_docfreq, i)
+                                                 word_to_index, index_to_word, inv_docfreq, i, n1=5, n2=2)
         print_label_term_dict(label_term_dict)
         print("#" * 80)
