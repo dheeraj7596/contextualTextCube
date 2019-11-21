@@ -65,7 +65,10 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
 def update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2):
     word_map = {}
     for l in range(label_count):
-        n = n1 * (it + 1)
+        if not np.any(E_LT):
+            n = 0
+        else:
+            n = n1 * (it + 1)
         inds_popular = E_LT[l].argsort()[::-1][:n]
 
         if not np.any(F_LT):
@@ -100,15 +103,24 @@ def update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2):
 
 
 def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label, word_to_index,
-                           index_to_word, inv_docfreq, it, n1, n2, doc_freq_thresh=5):
+                           index_to_word, inv_docfreq, it, n1, n2, doc_freq_thresh=5, flag=1):
     label_count = len(label_to_index)
     term_count = len(word_to_index)
     label_docs_dict = get_label_docs_dict(df, label_term_dict, pred_labels)
 
-    E_LT = get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index, term_count,
-                              word_to_index)
-    F_LT = get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq, label_count,
-                                label_docs_dict, label_to_index, term_count, word_to_index)
+    if flag == 0:
+        E_LT = np.zeros((label_count, term_count))
+        F_LT = get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq, label_count,
+                                    label_docs_dict, label_to_index, term_count, word_to_index)
+    elif flag == 1:
+        E_LT = get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index, term_count,
+                                  word_to_index)
+        F_LT = get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq, label_count,
+                                    label_docs_dict, label_to_index, term_count, word_to_index)
+    else:
+        E_LT = get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index, term_count,
+                                  word_to_index)
+        F_LT = np.zeros((label_count, term_count))
 
     label_term_dict = update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2)
     return label_term_dict
@@ -116,6 +128,7 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
 
 if __name__ == "__main__":
     pre_trained = int(sys.argv[1])
+    flag = int(sys.argv[2])
     basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
@@ -144,6 +157,6 @@ if __name__ == "__main__":
         #     pickle.dump(pred_labels, open(pkl_dump_dir + "seedwords_pred.pkl", "wb"))
         print("Updating label term dict..")
         label_term_dict = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label,
-                                                 word_to_index, index_to_word, inv_docfreq, i, n1=5, n2=2)
+                                                 word_to_index, index_to_word, inv_docfreq, i, n1=5, n2=7, flag=flag)
         print_label_term_dict(label_term_dict)
         print("#" * 80)
