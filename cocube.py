@@ -35,7 +35,8 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
         vect = CountVectorizer(vocabulary=list(word_to_index.keys()), tokenizer=lambda x: x.split())
         X = vect.fit_transform(docs)
         X_arr = X.toarray()
-        rel_freq = np.sum(X_arr, axis=0) / len(docs)
+        freq = np.sum(X_arr, axis=0)
+        rel_freq = freq / len(docs)
         names = vect.get_feature_names()
         for i, name in enumerate(names):
             try:
@@ -43,7 +44,7 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
                     continue
             except:
                 continue
-            E_LT[label_to_index[l]][word_to_index[name]] = rel_freq[i]
+            E_LT[label_to_index[l]][word_to_index[name]] = (rel_freq[i] ** 0.5) * (freq[i] ** 1.5)
     for l in range(label_count):
         zero_counter = 0
         for t in range(term_count):
@@ -56,7 +57,7 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
             if den == 0:
                 den = 0.0001
                 zero_counter += 1
-            temp = E_LT[l][t] / den
+            temp = E_LT[l][t] / (den ** 0.5)
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
         print(index_to_label[l], zero_counter)
     return E_LT
