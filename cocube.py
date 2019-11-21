@@ -28,7 +28,7 @@ def update(E_LT, index_to_label, index_to_word, it, label_count):
 
 
 def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label, word_to_index,
-                           index_to_word, inv_docfreq, it):
+                           index_to_word, inv_docfreq, it, doc_freq_thresh=5):
     label_count = len(label_to_index)
     term_count = len(word_to_index)
     label_docs_dict = get_label_docs_dict(df, label_term_dict, pred_labels)
@@ -37,13 +37,19 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
 
     for l in label_docs_dict:
         docs = label_docs_dict[l]
+        docfreq = calculate_doc_freq(docs)
         vect = CountVectorizer(vocabulary=list(word_to_index.keys()), tokenizer=lambda x: x.split())
         X = vect.fit_transform(docs)
         X_arr = X.toarray()
         rel_freq = np.sum(X_arr, axis=0) / len(docs)
         names = vect.get_feature_names()
         for i, name in enumerate(names):
-            E_LT[label_to_index[l]][word_to_index[name]] = np.tanh(rel_freq[i])
+            try:
+                if docfreq[name] < doc_freq_thresh:
+                    continue
+            except:
+                continue
+            E_LT[label_to_index[l]][word_to_index[name]] = rel_freq[i]
 
     for l in range(label_count):
         zero_counter = 0
@@ -55,10 +61,10 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
             temp_list.pop(l)
             den = np.nanmax(temp_list)
             if den == 0:
-                den = 1
+                den = 0.0001
                 zero_counter += 1
-            temp = E_LT[l][t]
-            # temp = E_LT[l][t] / den
+            # temp = E_LT[l][t]
+            temp = E_LT[l][t] / den
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
         print(index_to_label[l], zero_counter)
 

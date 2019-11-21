@@ -37,6 +37,19 @@ def get_term_freq(df):
     return term_freq
 
 
+def calculate_doc_freq(docs):
+    docfreq = {}
+    for doc in docs:
+        words = doc.strip().split()
+        temp_set = set(words)
+        for w in temp_set:
+            try:
+                docfreq[w] += 1
+            except:
+                docfreq[w] = 1
+    return docfreq
+
+
 def get_doc_freq(df):
     docfreq = {}
     docfreq["UNK"] = len(df)
