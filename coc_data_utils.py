@@ -19,12 +19,12 @@ def create_index(word_vec):
     return word_to_index, index_to_word
 
 
-def print_label_term_dict(label_term_dict):
+def print_label_term_dict(label_term_dict, components):
     for label in label_term_dict:
         print(label)
         print("*" * 80)
         for val in label_term_dict[label]:
-            print(val)
+            print(val, components[label][val])
 
 
 def get_term_freq(df):
