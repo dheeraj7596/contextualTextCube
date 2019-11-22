@@ -65,7 +65,8 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
                 zero_counter += 1
             temp = E_LT[l][t] / (den ** 0.5)
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
-            components[index_to_label[l]][index_to_word[t]]["ratio"] = temp
+            components[index_to_label[l]][index_to_word[t]]["ratio"] = components[index_to_label[l]][index_to_word[t]][
+                                                                           "relfreq"] / (den ** 0.5)
             components[index_to_label[l]][index_to_word[t]]["idf"] = inv_docfreq[index_to_word[t]]
             components[index_to_label[l]][index_to_word[t]]["rare"] = flag
         print(index_to_label[l], zero_counter)
