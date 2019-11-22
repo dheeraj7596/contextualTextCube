@@ -52,6 +52,7 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
     for l in range(label_count):
         zero_counter = 0
         for t in range(term_count):
+            flag = 0
             if E_LT[l][t] == 0:
                 continue
             col_list = list(E_LT[:, t])
@@ -59,11 +60,13 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
             temp_list.pop(l)
             den = np.nanmax(temp_list)
             if den == 0:
+                flag = 1
                 den = 0.0001
                 zero_counter += 1
             temp = E_LT[l][t] / (den ** 0.5)
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
             components[index_to_label[l]][index_to_word[t]]["idf"] = inv_docfreq[index_to_word[t]]
+            components[index_to_label[l]][index_to_word[t]]["rare"] = flag
         print(index_to_label[l], zero_counter)
     return E_LT, components
 
