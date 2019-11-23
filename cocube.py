@@ -47,8 +47,8 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
                     continue
             except:
                 continue
-            E_LT[label_to_index[l]][word_to_index[name]] = (rel_freq[i] ** 0.5) * (freq[i] ** 1.5)
-            components[l][name] = {"relfreq": rel_freq[i] ** 0.5, "freq": freq[i] ** 1.5}
+            E_LT[label_to_index[l]][word_to_index[name]] = (rel_freq[i] ** 0.2) * (freq[i] ** 1.5)
+            components[l][name] = {"relfreq": rel_freq[i] ** 0.2, "freq": freq[i] ** 1.5}
     for l in range(label_count):
         zero_counter = 0
         for t in range(term_count):
@@ -63,10 +63,10 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
                 flag = 1
                 den = 0.0001
                 zero_counter += 1
-            temp = E_LT[l][t] / (den ** 0.5)
+            temp = E_LT[l][t] / (den ** 0.2)
             E_LT[l][t] = temp * inv_docfreq[index_to_word[t]]
             components[index_to_label[l]][index_to_word[t]]["ratio"] = components[index_to_label[l]][index_to_word[t]][
-                                                                           "relfreq"] / (den ** 0.5)
+                                                                           "relfreq"] / (den ** 0.2)
             components[index_to_label[l]][index_to_word[t]]["idf"] = inv_docfreq[index_to_word[t]]
             components[index_to_label[l]][index_to_word[t]]["rare"] = flag
             components[index_to_label[l]][index_to_word[t]]["rank"] = E_LT[l][t]
