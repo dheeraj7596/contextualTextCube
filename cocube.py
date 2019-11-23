@@ -5,6 +5,7 @@ from collections import defaultdict
 import pickle
 import numpy as np
 import sys
+import math
 import copy
 
 
@@ -80,13 +81,13 @@ def update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2, l
         if not np.any(E_LT):
             n = 0
         else:
-            n = min(n1 * (it + 1), int(np.log(len(label_docs_dict[index_to_label[l]]))))
+            n = min(n1 * (it + 1), int(math.log(len(label_docs_dict[index_to_label[l]]), 1.5)))
         inds_popular = E_LT[l].argsort()[::-1][:n]
 
         if not np.any(F_LT):
             n = 0
         else:
-            n = min(n2 * (it + 1), int(np.log(len(label_docs_dict[index_to_label[l]]))))
+            n = min(n2 * (it + 1), int(math.log(len(label_docs_dict[index_to_label[l]]), 1.5)))
         inds_exclusive = F_LT[l].argsort()[::-1][:n]
 
         for word_ind in inds_popular:
