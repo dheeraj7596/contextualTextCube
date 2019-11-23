@@ -74,19 +74,19 @@ def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_doc
     return E_LT, components
 
 
-def update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2):
+def update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2, label_docs_dict):
     word_map = {}
     for l in range(label_count):
         if not np.any(E_LT):
             n = 0
         else:
-            n = n1 * (it + 1)
+            n = min(n1 * (it + 1), int(np.log(label_docs_dict[l])))
         inds_popular = E_LT[l].argsort()[::-1][:n]
 
         if not np.any(F_LT):
             n = 0
         else:
-            n = n2 * (it + 1)
+            n = min(n2 * (it + 1), int(np.log(label_docs_dict[l])))
         inds_exclusive = F_LT[l].argsort()[::-1][:n]
 
         for word_ind in inds_popular:
@@ -134,7 +134,7 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
                                   word_to_index)
         F_LT = np.zeros((label_count, term_count))
 
-    label_term_dict = update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2)
+    label_term_dict = update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2, label_docs_dict)
     return label_term_dict, components
 
 
