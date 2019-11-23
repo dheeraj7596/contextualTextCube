@@ -28,8 +28,11 @@ def get_popular_matrix(index_to_word, docfreq, inv_docfreq, label_count, label_d
                     continue
             except:
                 continue
-            E_LT[label_to_index[l]][word_to_index[name]] = (docfreq_local[name] / docfreq[name]) * inv_docfreq[name]
-            components[l][name] = {"reldocfreq": docfreq_local[name] / docfreq[name], "idf": inv_docfreq[name],
+            E_LT[label_to_index[l]][word_to_index[name]] = (docfreq_local[name] / docfreq[name]) * inv_docfreq[name] \
+                                                           * np.tanh(rel_freq[i])
+            components[l][name] = {"reldocfreq": docfreq_local[name] / docfreq[name],
+                                   "idf": inv_docfreq[name],
+                                   "rel_freq": np.tanh(rel_freq[i]),
                                    "rank": E_LT[label_to_index[l]][word_to_index[name]]}
     return E_LT, components
 
