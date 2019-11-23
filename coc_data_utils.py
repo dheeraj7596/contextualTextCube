@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def get_label_term_json(pkl_dump_dir):
     import json
-    dic = json.load(open(pkl_dump_dir + "seedwords.json", "r"))
+    dic = json.load(open(pkl_dump_dir + "seedwords_parent.json", "r"))
     return dic
 
 
