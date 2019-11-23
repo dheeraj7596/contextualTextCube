@@ -14,6 +14,7 @@ def get_popular_matrix(index_to_word, docfreq, inv_docfreq, label_count, label_d
     E_LT = np.zeros((label_count, term_count))
     components = {}
     for l in label_docs_dict:
+        components[l] = {}
         docs = label_docs_dict[l]
         docfreq_local = calculate_doc_freq(docs)
         vect = CountVectorizer(vocabulary=list(word_to_index.keys()), tokenizer=lambda x: x.split())
