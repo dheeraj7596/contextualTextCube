@@ -1,9 +1,13 @@
 {
   "arts": [
-    "arts"
+    "dance",
+    "television",
+    "music",
+    "movies"
   ],
   "business": [
-    "business"
+    "business",
+    "economy"
   ],
   "science": [
     "science"
@@ -12,6 +16,9 @@
     "sports"
   ],
   "politics": [
-    "politics"
+    "politics",
+    "abortion",
+    "immigration",
+    "medicaid"
   ]
 }
