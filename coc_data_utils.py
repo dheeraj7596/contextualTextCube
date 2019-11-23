@@ -69,10 +69,11 @@ def get_doc_freq(df):
 
 
 def get_inv_doc_freq(df, docfreq):
+    inv_docfreq = {}
     N = len(df)
     for word in docfreq:
-        docfreq[word] = np.log(N / docfreq[word])
-    return docfreq
+        inv_docfreq[word] = np.log(N / docfreq[word])
+    return inv_docfreq
 
 
 def get_label_docs_dict(df, label_term_dict, pred_labels):

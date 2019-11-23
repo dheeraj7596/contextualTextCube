@@ -9,22 +9,28 @@ import math
 import copy
 
 
-def get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index,
-                       term_count, word_to_index):
+def get_popular_matrix(index_to_word, docfreq, inv_docfreq, label_count, label_docs_dict, label_to_index,
+                       term_count, word_to_index, doc_freq_thresh):
     E_LT = np.zeros((label_count, term_count))
+    components = {}
     for l in label_docs_dict:
         docs = label_docs_dict[l]
+        docfreq_local = calculate_doc_freq(docs)
         vect = CountVectorizer(vocabulary=list(word_to_index.keys()), tokenizer=lambda x: x.split())
         X = vect.fit_transform(docs)
         X_arr = X.toarray()
         rel_freq = np.sum(X_arr, axis=0) / len(docs)
         names = vect.get_feature_names()
         for i, name in enumerate(names):
-            E_LT[label_to_index[l]][word_to_index[name]] = np.tanh(rel_freq[i])
-    for l in range(label_count):
-        for t in range(term_count):
-            E_LT[l][t] = E_LT[l][t] * inv_docfreq[index_to_word[t]]
-    return E_LT
+            try:
+                if docfreq_local[name] < doc_freq_thresh:
+                    continue
+            except:
+                continue
+            E_LT[label_to_index[l]][word_to_index[name]] = (docfreq_local[name] / docfreq[name]) * inv_docfreq[name]
+            components[l][name] = {"reldocfreq": docfreq_local[name] / docfreq[name], "idf": inv_docfreq[name],
+                                   "rank": E_LT[label_to_index[l]][word_to_index[name]]}
+    return E_LT, components
 
 
 def get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq, label_count, label_docs_dict,
@@ -116,7 +122,7 @@ def update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2, l
 
 
 def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, index_to_label, word_to_index,
-                           index_to_word, inv_docfreq, it, n1, n2, doc_freq_thresh=5, flag=1):
+                           index_to_word, inv_docfreq, docfreq, it, n1, n2, doc_freq_thresh=5, flag=1):
     label_count = len(label_to_index)
     term_count = len(word_to_index)
     label_docs_dict = get_label_docs_dict(df, label_term_dict, pred_labels)
@@ -126,13 +132,13 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
         F_LT, components = get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq,
                                                 label_count, label_docs_dict, label_to_index, term_count, word_to_index)
     elif flag == 1:
-        E_LT = get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index, term_count,
-                                  word_to_index)
+        E_LT, components = get_popular_matrix(index_to_word, docfreq, inv_docfreq, label_count, label_docs_dict,
+                                              label_to_index, term_count, word_to_index, doc_freq_thresh)
         F_LT, components = get_exclusive_matrix(doc_freq_thresh, index_to_label, index_to_word, inv_docfreq,
                                                 label_count, label_docs_dict, label_to_index, term_count, word_to_index)
     else:
-        E_LT = get_popular_matrix(index_to_word, inv_docfreq, label_count, label_docs_dict, label_to_index, term_count,
-                                  word_to_index)
+        E_LT, components = get_popular_matrix(index_to_word, docfreq, inv_docfreq, label_count, label_docs_dict,
+                                              label_to_index, term_count, word_to_index, doc_freq_thresh)
         F_LT = np.zeros((label_count, term_count))
 
     label_term_dict = update(E_LT, F_LT, index_to_label, index_to_word, it, label_count, n1, n2, label_docs_dict)
@@ -171,6 +177,6 @@ if __name__ == "__main__":
         print("Updating label term dict..")
         label_term_dict, components = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index,
                                                              index_to_label, word_to_index, index_to_word, inv_docfreq,
-                                                             i, n1=5, n2=7, flag=flag)
+                                                             docfreq, i, n1=7, n2=7, flag=flag)
         print_label_term_dict(label_term_dict, components)
         print("#" * 80)
