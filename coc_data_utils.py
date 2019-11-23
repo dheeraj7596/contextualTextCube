@@ -24,7 +24,10 @@ def print_label_term_dict(label_term_dict, components):
         print(label)
         print("*" * 80)
         for val in label_term_dict[label]:
-            print(val, components[label][val])
+            try:
+                print(val, components[label][val])
+            except Exception as e:
+                print("Exception occured: ", e, val)
 
 
 def get_term_freq(df):
