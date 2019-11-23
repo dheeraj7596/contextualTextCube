@@ -1,24 +1,27 @@
 {
   "arts": [
-    "dance",
-    "television",
     "music",
-    "movies"
+    "film",
+    "album"
   ],
   "business": [
-    "business",
+    "companies",
+    "euro",
     "economy"
   ],
   "science": [
-    "science"
+    "space$0",
+    "researchers",
+    "scientists"
   ],
   "sports": [
-    "sports"
+    "yankees",
+    "cup",
+    "league"
   ],
   "politics": [
-    "politics",
-    "abortion",
-    "immigration",
-    "medicaid"
+    "republicans",
+    "senator",
+    "senate"
   ]
 }
