@@ -156,7 +156,7 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords_parent.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords_child.pkl", "rb"))
     word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
 
     word_to_index, index_to_word = create_index(word_vec)
