@@ -156,22 +156,29 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords_child.pkl", "rb"))
-    word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_clean_child.pkl", "rb"))
 
-    word_to_index, index_to_word = create_index(word_vec)
+    vect = CountVectorizer(tokenizer=lambda x: x.split())
+    X = vect.fit_transform(df["sentence"])
+    names = vect.get_feature_names()
+
+    word_to_index = {}
+    index_to_word = {}
+    for i, word in enumerate(names):
+        word_to_index[word] = i
+        index_to_word[i] = word
+
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_uncontextualized_child.json")
 
     docfreq = get_doc_freq(df)
     inv_docfreq = get_inv_doc_freq(df, docfreq)
 
     # df = modify_df(df, docfreq, 5)
     t = 10
-    old_dic = None
 
     i = 0
-    while label_term_dict != old_dic:
+    for i in range(t):
         print("ITERATION ", i)
         print("Going to train classifier..")
         if i == 0 and pre_trained == 1:
@@ -181,10 +188,8 @@ if __name__ == "__main__":
         # if i == 0:
         #     pickle.dump(pred_labels, open(pkl_dump_dir + "seedwords_pred.pkl", "wb"))
         print("Updating label term dict..")
-        old_dic = copy.deepcopy(label_term_dict)
         label_term_dict, components = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index,
                                                              index_to_label, word_to_index, index_to_word, inv_docfreq,
                                                              docfreq, i, n1=7, n2=7, flag=flag)
         print_label_term_dict(label_term_dict, components)
         print("#" * 80)
-        i += 1

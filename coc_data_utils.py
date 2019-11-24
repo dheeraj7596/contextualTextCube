@@ -3,9 +3,9 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 
 
-def get_label_term_json(pkl_dump_dir):
+def get_label_term_json(path):
     import json
-    dic = json.load(open(pkl_dump_dir + "seedwords_child.json", "r"))
+    dic = json.load(open(path, "r"))
     return dic
 
 
