@@ -37,6 +37,7 @@ if __name__ == "__main__":
         print("Label: ", l)
         for seed in label_term_dict[l]:
             print("Seed: ", seed)
+            seed = seed.split("$")[0]
             t = get_thresh(word_dump_dir, seed)
             thresholds.append(t)
 
