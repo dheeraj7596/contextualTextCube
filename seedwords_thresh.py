@@ -7,20 +7,24 @@ import statistics
 
 
 def get_thresh(word_dump_dir, seed):
-    word_dir = os.path.join(word_dump_dir, seed)
-    filepaths = [os.path.join(word_dir, o) for o in os.listdir(word_dir) if
-                 os.path.isfile(os.path.join(word_dir, o))]
-    tok_vecs = []
-    for path in filepaths:
-        with open(path, 'rb') as fp:
-            tok_vecs.append(pickle.load(fp))
+    min_ = -1
+    try:
+        word_dir = os.path.join(word_dump_dir, seed)
+        filepaths = [os.path.join(word_dir, o) for o in os.listdir(word_dir) if
+                     os.path.isfile(os.path.join(word_dir, o))]
+        tok_vecs = []
+        for path in filepaths:
+            with open(path, 'rb') as fp:
+                tok_vecs.append(pickle.load(fp))
 
-    n = len(filepaths)
-    pairs = list(itertools.combinations(range(n), 2))
-    min_ = 5
-    for p in pairs:
-        sim = cosine_similarity(tok_vecs[p[0]].reshape(1, -1), tok_vecs[p[1]].reshape(1, -1))[0][0]
-        min_ = min(min_, sim)
+        n = len(filepaths)
+        pairs = list(itertools.combinations(range(n), 2))
+        min_ = 5
+        for p in pairs:
+            sim = cosine_similarity(tok_vecs[p[0]].reshape(1, -1), tok_vecs[p[1]].reshape(1, -1))[0][0]
+            min_ = min(min_, sim)
+    except Exception as e:
+        print("Exception for seed word: ", seed, e)
     return min_
 
 
@@ -39,6 +43,8 @@ if __name__ == "__main__":
             print("Seed: ", seed)
             seed = seed.split("$")[0]
             t = get_thresh(word_dump_dir, seed)
+            if t == -1:
+                continue
             thresholds.append(t)
 
     print("Median is: ", statistics.median(thresholds))
