@@ -41,7 +41,8 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
                 word_counter[word] += 1
                 vec = token.embedding.cpu().numpy()
                 try:
-                    pickle.dump(vec, open(fname, "wb"))
+                    with open(fname, "wb") as handler:
+                        pickle.dump(vec, handler)
                 except Exception as e:
                     except_counter += 1
                     print("Exception Counter: ", except_counter, sentence_ind, index, word, e)
