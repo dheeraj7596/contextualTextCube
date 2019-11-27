@@ -22,7 +22,8 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
             tok_vecs = []
             for path in filepaths[:1500]:
                 try:
-                    vec = pickle.load(open(path, "rb"))
+                    with open(path, "rb") as input_file:
+                        vec = pickle.load(input_file)
                     tok_vecs.append(vec)
                 except Exception as e:
                     except_counter += 1
@@ -35,7 +36,8 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
             word_cluster_dump_dir = cluster_dump_dir + word
             os.makedirs(word_cluster_dump_dir, exist_ok=True)
             if len(tok_vecs) < num_clusters:
-                pickle.dump(tok_vecs, open(word_cluster_dump_dir + "/cc.pkl", "wb"))
+                with open(word_cluster_dump_dir + "/cc.pkl", "wb") as output_file:
+                    pickle.dump(tok_vecs, output_file)
             else:
                 km = KMeans(n_clusters=num_clusters, n_jobs=-1)
                 km.fit(tok_vecs)
@@ -44,7 +46,8 @@ def cluster_all_embeddings(word_dump_dir, cluster_dump_dir, threshold=0.7):
                 if sim > threshold:
                     cc = [np.mean(tok_vecs, axis=0)]
 
-                pickle.dump(cc, open(word_cluster_dump_dir + "/cc.pkl", "wb"))
+                with open(word_cluster_dump_dir + "/cc.pkl", "wb") as output_file:
+                    pickle.dump(cc, output_file)
         else:
             print("Not a directory: ", os.path.join(word_dump_dir, word))
 
@@ -74,10 +77,10 @@ def get_relevant_dirs(word_dump_dir):
 
 if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "nyt/"
+    dataset = "arxiv/"
     pkl_dump_dir = basepath + dataset
 
-    word_dump_dir = pkl_dump_dir + "wordvecs_tokenized_fresh/"
-    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_fresh/"
+    word_dump_dir = pkl_dump_dir + "wordvecs_tokenized_new/"
+    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_new/"
 
     cluster_all_embeddings(word_dump_dir, cluster_dump_dir)
