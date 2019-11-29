@@ -55,11 +55,13 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
                         word_clean_path = cluster_dump_dir + word_clean + "/cc.pkl"
                         word_path = cluster_dump_dir + word + "/cc.pkl"
                         try:
-                            cc = pickle.load(open(word_clean_path, "rb"))
+                            with open(word_clean_path, "rb") as handler:
+                                cc = pickle.load(handler)
                             word_cluster[word_clean] = cc
                         except:
                             try:
-                                cc = pickle.load(open(word_path, "rb"))
+                                with open(word_path, "rb") as handler:
+                                    cc = pickle.load(handler)
                                 word_cluster[word] = cc
                             except Exception as e:
                                 except_counter += 1
@@ -78,17 +80,20 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
 if __name__ == "__main__":
     embedding = BertEmbeddings('bert-base-uncased')
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "nyt/"
+    dataset = "arxiv/"
     pkl_dump_dir = basepath + dataset
-    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_fresh/"
+    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_new/"
 
-    df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
+    with open(pkl_dump_dir + "/df_tokens_limit_new.pkl", "rb") as handler:
+        df = pickle.load(handler)
     df, word_cluster = make_word_cluster(df, embedding, cluster_dump_dir)
 
     print("Dumping df..")
-    pickle.dump(df, open(pkl_dump_dir + "df_tokenized_contextualized_clean.pkl", "wb"))
+    with open(pkl_dump_dir + "df_tokenized_contextualized_clean.pkl", "wb") as handler:
+        pickle.dump(df, handler)
 
     df.to_excel(pkl_dump_dir + "df_tokenized_contextualized_clean.xlsx")
 
     print("Dumping word_cluster..")
-    pickle.dump(word_cluster, open(pkl_dump_dir + "word_cluster_tokenized_clean.pkl", "wb"))
+    with open(pkl_dump_dir + "word_cluster_tokenized_clean.pkl", "wb") as handler:
+        pickle.dump(word_cluster, handler)

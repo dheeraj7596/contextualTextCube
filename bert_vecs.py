@@ -55,5 +55,5 @@ if __name__ == "__main__":
     pkl_dump_dir = basepath + dataset
     word_dump_dir = basepath + dataset + "wordvecs_tokenized_fresh_uncap/"
 
-    df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit_new.pkl", "rb"))
     get_all_embeddings(df, embedding, word_dump_dir)
