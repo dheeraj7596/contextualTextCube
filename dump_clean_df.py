@@ -67,7 +67,7 @@ def dump_clean(df, word_cluster):
 
 if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "nyt/"
+    dataset = "arxiv/"
     pkl_dump_dir = basepath + dataset
 
     df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean.pkl", "rb"))
