@@ -30,16 +30,16 @@ if __name__ == "__main__":
 
     label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child_uncon.json")
 
-    tagged_data = [word_tokenize(_d.lower()) for i, _d in enumerate(df["sentence"])]
+    tagged_data = [_d.strip().split() for i, _d in enumerate(df["sentence"])]
     max_epochs = 20
     vec_size = 100
     alpha = 0.025
 
-    # model = Word2Vec(tagged_data, size=vec_size, alpha=alpha)
-    # model.save(pkl_dump_dir + "w2v.model")
-    # print("Model Saved")
+    model = Word2Vec(tagged_data, size=vec_size, alpha=alpha, min_count=1)
+    model.save(pkl_dump_dir + "w2v.model_child")
+    print("Model Saved")
 
-    model = Word2Vec.load(pkl_dump_dir + "w2v.model")
+    # model = Word2Vec.load(pkl_dump_dir + "w2v.model")
 
     label_w2v_dict = get_label_w2v_dict(label_term_dict)
 

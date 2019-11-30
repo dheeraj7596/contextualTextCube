@@ -168,10 +168,8 @@ if __name__ == "__main__":
 
     # df = modify_df(df, docfreq, 5)
     t = 10
-    old_dic = None
 
-    i = 0
-    while label_term_dict != old_dic:
+    for i in range(t):
         print("ITERATION ", i)
         print("Going to train classifier..")
         if i == 0 and pre_trained == 1:
@@ -181,10 +179,8 @@ if __name__ == "__main__":
         # if i == 0:
         #     pickle.dump(pred_labels, open(pkl_dump_dir + "seedwords_pred.pkl", "wb"))
         print("Updating label term dict..")
-        old_dic = copy.deepcopy(label_term_dict)
         label_term_dict, components = update_label_term_dict(df, label_term_dict, pred_labels, label_to_index,
                                                              index_to_label, word_to_index, index_to_word, inv_docfreq,
                                                              docfreq, i, n1=7, n2=7, flag=flag)
         print_label_term_dict(label_term_dict, components)
         print("#" * 80)
-        i += 1
