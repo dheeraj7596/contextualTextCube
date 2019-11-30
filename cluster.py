@@ -77,10 +77,10 @@ def get_relevant_dirs(word_dump_dir):
 
 if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "arxiv/"
+    dataset = "yelp/"
     pkl_dump_dir = basepath + dataset
 
-    word_dump_dir = pkl_dump_dir + "wordvecs_tokenized_new/"
-    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_new/"
+    word_dump_dir = pkl_dump_dir + "wordvecs_tokenized"
+    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized/"
 
     cluster_all_embeddings(word_dump_dir, cluster_dump_dir)
