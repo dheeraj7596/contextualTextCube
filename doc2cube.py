@@ -2,6 +2,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics import classification_report
 from scipy.special import softmax
 from scipy.stats import entropy
+from gensim.models import Word2Vec
 import numpy as np
 import pickle
 
@@ -53,7 +54,7 @@ def get_UT(word_vec):
     index_to_word = {}
     U_T = []
 
-    words = list(word_vec.keys())
+    words = list(word_vec.wv.vocab.keys())
     for i, word in enumerate(words):
         word_to_index[word] = i
         index_to_word[i] = word
@@ -157,7 +158,9 @@ if __name__ == "__main__":
     pkl_dump_dir = basepath + dataset
 
     df = pickle.load(open(pkl_dump_dir + "df_tokenized_clean_parent.pkl", "rb"))
-    word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
+
+    word_vec = Word2Vec.load(pkl_dump_dir + "w2v.model")
+    # word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
     labels, label_to_index, index_to_label = get_distinct_labels(df)
 
     # U_D = get_UD(df, word_vec)
