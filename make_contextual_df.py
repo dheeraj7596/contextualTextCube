@@ -80,11 +80,11 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
 if __name__ == "__main__":
     embedding = BertEmbeddings('bert-base-uncased')
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "arxiv/"
+    dataset = "yelp/"
     pkl_dump_dir = basepath + dataset
-    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_new/"
+    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized/"
 
-    with open(pkl_dump_dir + "/df_tokens_limit_new.pkl", "rb") as handler:
+    with open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb") as handler:
         df = pickle.load(handler)
     df, word_cluster = make_word_cluster(df, embedding, cluster_dump_dir)
 
