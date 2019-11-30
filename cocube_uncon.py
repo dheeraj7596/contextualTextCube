@@ -156,7 +156,7 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_tokenized_clean_child.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_clean_parent.pkl", "rb"))
 
     vect = CountVectorizer(tokenizer=lambda x: x.split())
     X = vect.fit_transform(df["sentence"])
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         index_to_word[i] = word
 
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_uncontextualized_child.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_parent_uncon.json")
 
     docfreq = get_doc_freq(df)
     inv_docfreq = get_inv_doc_freq(df, docfreq)
