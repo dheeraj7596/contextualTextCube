@@ -8,7 +8,7 @@ import flair, torch
 import string
 import os
 
-flair.device = torch.device('cuda:1')
+flair.device = torch.device('cuda:3')
 
 
 def get_all_embeddings(df, embedding, pkl_dump_dir):
@@ -51,9 +51,9 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
 if __name__ == "__main__":
     embedding = BertEmbeddings('bert-base-uncased')
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "arxiv/"
+    dataset = "yelp/"
     pkl_dump_dir = basepath + dataset
-    word_dump_dir = basepath + dataset + "wordvecs_tokenized_fresh_uncap/"
+    word_dump_dir = basepath + dataset + "wordvecs_tokenized/"
 
-    df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit_new.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb"))
     get_all_embeddings(df, embedding, word_dump_dir)
