@@ -12,7 +12,7 @@ def cluster(word_dir):
     filepaths = [os.path.join(word_dir, o) for o in os.listdir(word_dir) if
                  os.path.isfile(os.path.join(word_dir, o))]
     tok_vecs = []
-    print("Getting vectors..")
+    print("Getting vectors..", len(filepaths))
     for path in filepaths[:1500]:
         try:
             with open(path, "rb") as input_file:
