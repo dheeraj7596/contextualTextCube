@@ -1,27 +1,26 @@
 {
   "great": [
     "best$0",
-    "love",
+    "fantastic",
     "great"
   ],
   "good": [
-    "well$1",
-    "yummy",
+    "tasty",
+    "delicious",
     "fresh"
   ],
   "average": [
-    "okay",
+    "pretty",
     "decent",
     "little"
   ],
   "terrible": [
     "worst",
-    "rude",
+    "terrible",
     "horrible"
   ],
   "bad": [
-    "bland",
     "bad",
-    "mediocre"
+    "disappointed"
   ]
 }
