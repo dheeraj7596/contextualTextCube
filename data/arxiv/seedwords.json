@@ -1,0 +1,306 @@
+{
+  "math.DS": [
+    "periodic",
+    "invariant",
+    "maps",
+    "diffeomorphisms"
+  ],
+  "math.OC": [
+    "optimal",
+    "optimization",
+    "convex",
+    "objective$1"
+  ],
+  "math.NA": [
+    "numerical",
+    "convergence",
+    "runge-kutta",
+    "discretization"
+  ],
+  "cs.PL": [
+    "languages",
+    "programs",
+    "programming",
+    "program"
+  ],
+  "cs.SY": [
+    "controller",
+    "controllers",
+    "hvac"
+  ],
+  "cs.DS": [
+    "randomized",
+    "amortized",
+    "matching",
+    "log"
+  ],
+  "math.QA": [
+    "hopf",
+    "quasi-hopf",
+    "sl"
+  ],
+  "math.RA": [
+    "quasipolar",
+    "gelfand-kirillov",
+    "algebras",
+    "graded"
+  ],
+  "math.RT": [
+    "irreducible",
+    "representations",
+    "modules"
+  ],
+  "physics.class-ph": [
+    "acoustic",
+    "electromagnetic",
+    "piano"
+  ],
+  "physics.acc-ph": [
+    "linac",
+    "bunch",
+    "emittance",
+    "rf"
+  ],
+  "physics.plasm-ph": [
+    "plasmas",
+    "plasma",
+    "ion",
+    "electron"
+  ],
+  "cs.IT": [
+    "codes",
+    "channel",
+    "coding",
+    "channels"
+  ],
+  "math.SG": [
+    "symplectic",
+    "legendrian",
+    "lagrangian"
+  ],
+  "math.GT": [
+    "knots",
+    "knot",
+    "heegaard",
+    "homology"
+  ],
+  "math.OA": [
+    "unital",
+    "von",
+    "crossed"
+  ],
+  "math.CA": [
+    "polynomials",
+    "inequalities",
+    "integrals",
+    "integral"
+  ],
+  "math.FA": [
+    "banach",
+    "spaces",
+    "operators$0",
+    "operator"
+  ],
+  "physics.soc-ph": [
+    "social",
+    "urban",
+    "cities",
+    "opinion$0"
+  ],
+  "cs.NI": [
+    "wireless",
+    "routing",
+    "tcp",
+    "networks"
+  ],
+  "cs.AI": [
+    "belief$0",
+    "reasoning",
+    "inference",
+    "decision"
+  ],
+  "math.GM": [
+    "neutrosophic",
+    "fuzzy"
+  ],
+  "cs.LO": [
+    "logic",
+    "logics",
+    "semantics",
+    "decidable"
+  ],
+  "math.ST": [
+    "estimator",
+    "estimators",
+    "nonparametric",
+    "regression"
+  ],
+  "physics.flu-dyn": [
+    "reynolds",
+    "turbulence",
+    "fluid",
+    "turbulent"
+  ],
+  "cs.OH": [
+    "mems",
+    "rf-mems",
+    "cmos"
+  ],
+  "cs.CC": [
+    "np$0",
+    "depth-4",
+    "turing",
+    "circuits"
+  ],
+  "math.LO": [
+    "cardinals",
+    "definable",
+    "cardinal",
+    "aleph"
+  ],
+  "math.AP": [
+    "solutions",
+    "equation",
+    "partial$1",
+    "nonlinear$0"
+  ],
+  "cs.GT": [
+    "auctions",
+    "welfare",
+    "auction",
+    "revenue"
+  ],
+  "cs.SE": [
+    "software",
+    "product$1",
+    "projects$1",
+    "engineering"
+  ],
+  "math.GR": [
+    "subgroups",
+    "conjugacy",
+    "group",
+    "groups"
+  ],
+  "math.CO": [
+    "graph",
+    "graphs",
+    "edges",
+    "vertex"
+  ],
+  "math.DG": [
+    "riemannian",
+    "curvature",
+    "manifold",
+    "manifolds"
+  ],
+  "physics.gen-ph": [
+    "universe",
+    "gravity",
+    "relativity",
+    "gravitational"
+  ],
+  "cs.DC": [
+    "cloud$1",
+    "byzantine",
+    "distributed"
+  ],
+  "cs.CR": [
+    "key$1",
+    "attacks",
+    "privacy",
+    "attack"
+  ],
+  "math.PR": [
+    "brownian",
+    "stochastic",
+    "random",
+    "processes"
+  ],
+  "cs.CL": [
+    "corpus",
+    "lexical",
+    "words$0",
+    "text$0"
+  ],
+  "math.AG": [
+    "moduli",
+    "variety$0",
+    "bundles",
+    "curves"
+  ],
+  "cs.DB": [
+    "query",
+    "queries",
+    "database",
+    "databases"
+  ],
+  "physics.atom-ph": [
+    "atoms",
+    "atomic",
+    "atom",
+    "ionization",
+    "states$1"
+  ],
+  "physics.chem-ph": [
+    "molecular",
+    "molecules",
+    "electronic",
+    "reaction"
+  ],
+  "math.AT": [
+    "homotopy",
+    "cohomology"
+  ],
+  "math.NT": [
+    "prime",
+    "primes",
+    "modular",
+    "numbers"
+  ],
+  "cs.CV": [
+    "segmentation",
+    "images",
+    "cnn",
+    "image"
+  ],
+  "math.AC": [
+    "ideals",
+    "cohen-macaulay",
+    "rings",
+    "ring"
+  ],
+  "math.MG": [
+    "bodies",
+    "two-distance",
+    "circumcenter"
+  ],
+  "math.CV": [
+    "holomorphic",
+    "mappings",
+    "domains"
+  ],
+  "physics.optics": [
+    "photonic",
+    "light$1",
+    "optical",
+    "waveguide"
+  ],
+  "physics.ins-det": [
+    "detectors",
+    "detector",
+    "pixel",
+    "scintillator"
+  ],
+  "cs.CY": [
+    "students",
+    "education",
+    "e-learning$0"
+  ],
+  "cs.LG": [
+    "learning",
+    "clustering",
+    "classifier",
+    "machine"
+  ]
+}
