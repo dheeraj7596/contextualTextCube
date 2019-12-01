@@ -153,7 +153,7 @@ if __name__ == "__main__":
     pre_trained = int(sys.argv[1])
     flag = int(sys.argv[2])
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "arxiv/"
+    dataset = "yelp/"
     pkl_dump_dir = basepath + dataset
 
     df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords.pkl", "rb"))
@@ -161,8 +161,7 @@ if __name__ == "__main__":
 
     word_to_index, index_to_word = create_index(word_vec)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    # label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
-    label_term_dict = {}
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
 
     docfreq = get_doc_freq(df)
     inv_docfreq = get_inv_doc_freq(df, docfreq)
