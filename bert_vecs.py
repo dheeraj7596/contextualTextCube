@@ -51,7 +51,7 @@ def get_all_embeddings(df, embedding, pkl_dump_dir):
 if __name__ == "__main__":
     embedding = BertEmbeddings('bert-base-uncased')
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "yelp/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
     word_dump_dir = basepath + dataset + "wordvecs_tokenized/"
 

@@ -73,7 +73,7 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
                     cluster = get_cluster(tok_vec, cc)
                     sentence.tokens[token_ind].text = word + "$" + str(cluster)
             sentences[sentence_ind] = to_tokenized_string(sentence)
-        df["sentence"][index] = " ".join(sentences)
+        df["sentence"][index] = ".".join(sentences)
     return df, word_cluster
 
 
