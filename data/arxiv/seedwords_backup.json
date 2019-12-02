@@ -1,53 +1,49 @@
 {
   "math.DS": [
-    "dynamical",
-    "dynamics",
-    "ergodic",
     "periodic",
     "invariant",
+    "maps",
     "diffeomorphisms"
   ],
   "math.OC": [
-    "control",
     "optimal",
     "optimization",
-    "controllability"
+    "convex",
+    "objective$1"
   ],
   "math.NA": [
     "numerical",
     "convergence",
-    "quadrature",
+    "runge-kutta",
     "discretization"
   ],
   "cs.PL": [
     "languages",
     "programs",
     "programming",
-    "program",
-    "semantics"
+    "program"
   ],
   "cs.SY": [
     "controller",
     "controllers",
-    "systems",
-    "system",
-    "identification"
+    "hvac"
   ],
   "cs.DS": [
     "randomized",
     "amortized",
-    "substring",
-    "approximation"
+    "matching",
+    "log"
   ],
   "math.QA": [
+    "hopf",
     "quasi-hopf",
-    "bicovariant",
-    "braided",
-    "affine"
+    "sl"
   ],
   "math.RA": [
     "quasipolar",
-    "gelfand-kirillov"
+    "gelfand-kirillov",
+    "algebras",
+    "graded"
   ],
   "math.RT": [
     "irreducible",
@@ -56,10 +52,8 @@
   ],
   "physics.class-ph": [
     "acoustic",
-    "piano",
-    "reed$0",
-    "acoustical",
-    "stiffness"
+    "electromagnetic",
+    "piano"
   ],
   "physics.acc-ph": [
     "linac",
@@ -93,10 +87,7 @@
   "math.OA": [
     "unital",
     "von",
-    "crossed",
-    "groupoid",
-    "neumann",
-    "tracial"
+    "crossed"
   ],
   "math.CA": [
     "polynomials",
@@ -111,6 +102,7 @@
     "operator"
   ],
   "physics.soc-ph": [
+    "social",
     "urban",
     "cities",
     "opinion$0"
@@ -124,15 +116,12 @@
   "cs.AI": [
     "belief$0",
     "reasoning",
-    "intelligence",
     "inference",
-    "decision",
-    "ai"
+    "decision"
   ],
   "math.GM": [
     "neutrosophic",
-    "hypersemigroups",
-    "flt"
+    "fuzzy"
   ],
   "cs.LO": [
     "logic",
@@ -155,14 +144,13 @@
   "cs.OH": [
     "mems",
     "rf-mems",
-    "cmos",
-    "micro",
-    "embossed"
+    "cmos"
   ],
   "cs.CC": [
     "np$0",
-    "hardness",
-    "complexity"
+    "depth-4",
+    "turing",
+    "circuits"
   ],
   "math.LO": [
     "cardinals",
@@ -218,10 +206,6 @@
     "distributed"
   ],
   "cs.CR": [
-    "security",
-    "encryption",
-    "cryptographic",
-    "malware",
     "key$1",
     "attacks",
     "privacy",
@@ -234,10 +218,10 @@
     "processes"
   ],
   "cs.CL": [
-    "language",
     "corpus",
     "lexical",
-    "linguistic"
+    "words$0",
+    "text$0"
   ],
   "math.AG": [
     "moduli",
@@ -265,9 +249,8 @@
     "reaction"
   ],
   "math.AT": [
-    "simplicial",
-    "equivariant",
-    "operad"
+    "homotopy",
+    "cohomology"
   ],
   "math.NT": [
     "prime",
@@ -288,10 +271,6 @@
     "ring"
   ],
   "math.MG": [
-    "body",
-    "euclidean",
-    "packing",
-    "tilings",
     "bodies",
     "two-distance",
     "circumcenter"
@@ -316,12 +295,7 @@
   "cs.CY": [
     "students",
     "education",
-    "e-learning$0",
-    "technology",
-    "student",
-    "organizations",
-    "ict",
-    "teaching"
+    "e-learning$0"
   ],
   "cs.LG": [
     "learning",
