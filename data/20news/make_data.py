@@ -2,6 +2,19 @@ from sklearn.datasets import fetch_20newsgroups
 from nltk.tokenize import sent_tokenize, word_tokenize
 import pandas as pd
 import pickle
+import re
+
+
+def clean(sentence):
+    pattern = r'[\w\.-]+@[\w\.-]+\.\w+'
+    sent = ""
+    start = 0
+    for m in re.finditer(pattern, sentence):
+        tup = m.span()
+        sent += sentence[start:tup[0]]
+        start = tup[1]
+    sent += sentence[start:]
+    return sent
 
 
 def make_df(train, labels):
@@ -14,11 +27,12 @@ def make_df(train, labels):
         label = labels[train.target[i]]
         line = train.data[i]
         line = line.strip().lower()
+        line = clean(line)
         sentences = sent_tokenize(line)
         flag = 0
         for sentence in sentences:
             words = word_tokenize(sentence)
-            if len(words) > 200:
+            if len(words) > 150:
                 skip_counter += 1
                 print("Skipped due to large tokens: ", skip_counter)
                 flag = 1
