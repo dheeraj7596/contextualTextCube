@@ -33,9 +33,9 @@ if __name__ == "__main__":
     word = sys.argv[1]
 
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "arxiv/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
-    word_dump_dir = pkl_dump_dir + "wordvecs_tokenized_new/" + word
+    word_dump_dir = pkl_dump_dir + "wordvecs_tokenized_fresh/" + word
 
     cluster(word_dump_dir)
