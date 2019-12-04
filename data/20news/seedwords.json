@@ -1,62 +1,99 @@
 {
   "alt.atheism": [
-    "alt.atheism"
+    "atheism",
+    "atheists",
+    "theism"
   ],
   "comp.graphics": [
-    "comp.graphics"
+    "jpeg",
+    "gif",
+    "images"
   ],
   "comp.os.ms-windows.misc": [
-    "comp.os.ms-windows.misc"
+    "driver$0",
+    "microsoft",
+    "dos"
   ],
   "comp.sys.ibm.pc.hardware": [
-    "comp.sys.ibm.pc.hardware"
+    "scsi",
+    "ide",
+    "controller"
   ],
   "comp.sys.mac.hardware": [
-    "comp.sys.mac.hardware"
+    "apple",
+    "mac",
+    "centris"
   ],
   "comp.windows.x": [
-    "comp.windows.x"
+    "motif",
+    "x11r5",
+    "xterm"
   ],
   "misc.forsale": [
-    "misc.forsale"
+    "sale",
+    "offer$0",
+    "shipping"
   ],
   "rec.autos": [
-    "rec.autos"
+    "car",
+    "mustang",
+    "V6"
   ],
   "rec.motorcycles": [
-    "rec.motorcycles"
+    "bike",
+    "dod",
+    "bikes"
   ],
   "rec.sport.baseball": [
-    "rec.sport.baseball"
+    "baseball",
+    "runs$1",
+    "hit$0"
   ],
   "rec.sport.hockey": [
-    "rec.sport.hockey"
+    "hockey",
+    "nhl"
   ],
   "sci.crypt": [
-    "sci.crypt"
+    "encryption",
+    "clipper",
+    "key$0"
   ],
   "sci.electronics": [
-    "sci.electronics"
+    "circuit",
+    "circuits",
+    "current$1"
   ],
   "sci.med": [
-    "sci.med"
+    "candida",
+    "msg"
   ],
   "sci.space": [
-    "sci.space"
+    "space$1",
+    "shuttle",
+    "orbit"
   ],
   "soc.religion.christian": [
-    "soc.religion.christian"
+    "sin",
+    "christ",
+    "church"
   ],
   "talk.politics.guns": [
-    "talk.politics.guns"
+    "fbi",
+    "gun",
+    "guns"
   ],
   "talk.politics.mideast": [
-    "talk.politics.mideast"
+    "armenian",
+    "armenians",
+    "turkish"
   ],
   "talk.politics.misc": [
-    "talk.politics.misc"
+    "stephanopoulos",
+    "cramer$0",
+    "clayton$0"
   ],
   "talk.religion.misc": [
-    "talk.religion.misc"
+    "weiss$1",
+    "malcolm"
   ]
 }
