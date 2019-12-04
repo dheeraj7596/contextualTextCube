@@ -153,7 +153,7 @@ if __name__ == "__main__":
     pre_trained = int(sys.argv[1])
     flag = int(sys.argv[2])
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "yelp/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
     df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords.pkl", "rb"))
