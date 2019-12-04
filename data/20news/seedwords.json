@@ -2,37 +2,43 @@
   "alt.atheism": [
     "atheism",
     "atheists",
-    "theism"
+    "rushdie"
   ],
   "comp.graphics": [
     "jpeg",
     "gif",
-    "images"
+    "images",
+    "graphics"
   ],
   "comp.os.ms-windows.misc": [
     "driver$0",
     "microsoft",
-    "dos"
+    "dos",
+    "windows$0"
   ],
   "comp.sys.ibm.pc.hardware": [
     "scsi",
     "ide",
-    "controller"
+    "controller",
+    "drive$1"
   ],
   "comp.sys.mac.hardware": [
     "apple",
     "mac",
-    "centris"
+    "centris",
+    "powerbook"
   ],
   "comp.windows.x": [
     "motif",
     "x11r5",
-    "xterm"
+    "xterm",
+    "window$1"
   ],
   "misc.forsale": [
     "sale",
     "offer$0",
-    "shipping"
+    "shipping",
+    "forsale"
   ],
   "rec.autos": [
     "car",
@@ -45,9 +51,7 @@
     "bikes"
   ],
   "rec.sport.baseball": [
-    "baseball",
-    "runs$1",
-    "hit$0"
+    "baseball"
   ],
   "rec.sport.hockey": [
     "hockey",
@@ -56,16 +60,19 @@
   "sci.crypt": [
     "encryption",
     "clipper",
-    "key$0"
+    "key$0",
+    "chip"
   ],
   "sci.electronics": [
     "circuit",
-    "circuits",
-    "current$1"
+    "current$1",
+    "wire",
+    "voltage"
   ],
   "sci.med": [
     "candida",
-    "msg"
+    "msg",
+    "vitamin"
   ],
   "sci.space": [
     "space$1",
@@ -73,27 +80,33 @@
     "orbit"
   ],
   "soc.religion.christian": [
-    "sin",
+    "jesus",
     "christ",
-    "church"
+    "church",
+    "bible"
   ],
   "talk.politics.guns": [
-    "fbi",
+    "weapons",
     "gun",
-    "guns"
+    "guns",
+    "firearms"
   ],
   "talk.politics.mideast": [
     "armenian",
-    "armenians",
-    "turkish"
+    "israeli",
+    "turkish",
+    "arab"
   ],
   "talk.politics.misc": [
     "stephanopoulos",
     "cramer$0",
-    "clayton$0"
+    "clayton$0",
+    "gay"
   ],
   "talk.religion.misc": [
     "weiss$1",
-    "malcolm"
+    "malcolm",
+    "sandvik",
+    "jehovah"
   ]
 }
