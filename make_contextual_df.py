@@ -73,16 +73,16 @@ def make_word_cluster(df, embedding, cluster_dump_dir):
                     cluster = get_cluster(tok_vec, cc)
                     sentence.tokens[token_ind].text = word + "$" + str(cluster)
             sentences[sentence_ind] = to_tokenized_string(sentence)
-        df["sentence"][index] = ".".join(sentences)
+        df["sentence"][index] = ". ".join(sentences)
     return df, word_cluster
 
 
 if __name__ == "__main__":
     embedding = BertEmbeddings('bert-base-uncased')
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "yelp/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
-    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized/"
+    cluster_dump_dir = pkl_dump_dir + "clusters_tokenized_fresh/"
 
     with open(pkl_dump_dir + "/df_tokens_limit.pkl", "rb") as handler:
         df = pickle.load(handler)
