@@ -153,10 +153,10 @@ if __name__ == "__main__":
     pre_trained = int(sys.argv[1])
     flag = int(sys.argv[2])
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "nyt/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_tokenized_clean_parent.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_limit_clean_parent.pkl", "rb"))
 
     vect = CountVectorizer(tokenizer=lambda x: x.split())
     X = vect.fit_transform(df["sentence"])
