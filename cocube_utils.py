@@ -165,7 +165,7 @@ def train_classifier(df, labels, label_term_dict, label_to_index, index_to_label
     print("****************** CLASSIFICATION REPORT FOR TRAINING DATA ********************")
     print(classification_report(y_true, y))
     df_train = create_training_df(X, y, y_true)
-    df_train.to_excel(basepath + dataset + "training_label.xlsx")
+    df_train.to_csv(basepath + dataset + "training_label.csv")
     y_one_hot = make_one_hot(y, label_to_index)
     # y = np.array(y)
     print("Fitting tokenizer...")
