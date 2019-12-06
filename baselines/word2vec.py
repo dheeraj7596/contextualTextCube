@@ -12,6 +12,7 @@ def get_label_w2v_dict(label_term_dict):
     for l in label_term_dict:
         temp = np.zeros((100,))
         for w in label_term_dict[l]:
+            w = w.split("$")[0]
             try:
                 temp += model[w]
             except Exception as e:
@@ -22,15 +23,15 @@ def get_label_w2v_dict(label_term_dict):
 
 if __name__ == "__main__":
     basepath = "../data/"
-    dataset = "nyt/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
-    with open(pkl_dump_dir + "df_tokenized_clean_child.pkl", "rb") as handler:
+    with open(pkl_dump_dir + "df_tokens_limit.pkl", "rb") as handler:
         df = pickle.load(handler)
 
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child_uncon.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
 
-    tagged_data = [_d.strip().split() for i, _d in enumerate(df["sentence"])]
+    tagged_data = [word_tokenize(_d) for i, _d in enumerate(df["sentence"])]
     max_epochs = 20
     vec_size = 100
     alpha = 0.025
@@ -52,7 +53,8 @@ if __name__ == "__main__":
             try:
                 temp += model[w]
             except Exception as e:
-                print("Word: ", w, e)
+                pass
+                # print("Word: ", w, e)
         maxi = -1
         max_l = ""
         for l in label_w2v_dict:

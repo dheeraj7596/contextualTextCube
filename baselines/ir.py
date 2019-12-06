@@ -5,13 +5,13 @@ from sklearn.metrics import classification_report
 
 if __name__ == "__main__":
     basepath = "../data/"
-    dataset = "nyt/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
-    with open(pkl_dump_dir + "df_tokenized_clean_parent.pkl", "rb") as handler:
+    with open(pkl_dump_dir + "df_tokenized_contextualized_clean.pkl", "rb") as handler:
         df = pickle.load(handler)
 
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_parent_uncon.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
     vectorizer = TfidfVectorizer()
     X = vectorizer.fit_transform(df["sentence"])
     X_arr = X.toarray()
@@ -22,6 +22,7 @@ if __name__ == "__main__":
         label_term_index_dict[i] = []
         for w in label_term_dict[i]:
             try:
+                w = w.split("$")[0]
                 label_term_index_dict[i].append(names.index(w))
             except Exception as e:
                 print("Exception for: ", w, e)
