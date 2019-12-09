@@ -4,6 +4,7 @@ from scipy.special import softmax
 from scipy.stats import entropy
 from gensim.models import Word2Vec
 import numpy as np
+from coc_data_utils import *
 import pickle
 
 
@@ -73,36 +74,18 @@ def get_ATD(df, word_to_index):
     return A_TD
 
 
-def get_ALT(index_to_label, word_to_index):
+def get_ALT(index_to_label, word_to_index, label_term_dict):
     num_labels = len(index_to_label)
     num_words = len(word_to_index)
     A_LT = np.zeros((num_labels, num_words))
     for l in index_to_label:
         label = index_to_label[l]
 
-        if label == "the_affordable_care_act":
-            A_LT[l][word_to_index["affordable$0"]] = 1
-            A_LT[l][word_to_index["care$0"]] = 1
-        elif label == "stocks_and_bonds":
-            A_LT[l][word_to_index["stocks"]] = 1
-            A_LT[l][word_to_index["bonds$1"]] = 1
-        elif label == "gun_control":
-            A_LT[l][word_to_index["gun"]] = 1
-        elif label == "federal_budget":
-            A_LT[l][word_to_index["budget"]] = 1
-        elif label == "energy_companies":
-            A_LT[l][word_to_index["energy"]] = 1
-        elif label == "cosmos":
-            A_LT[l][word_to_index["cosmos$1"]] = 1
-        elif label == "gay_rights":
-            A_LT[l][word_to_index["gay"]] = 1
-        elif label == "international_business":
-            A_LT[l][word_to_index["business"]] = 1
-        elif label == "law_enforcement":
-            A_LT[l][word_to_index["law$0"]] = 1
-        else:
-            index = word_to_index[label]
-            A_LT[l][index] = 1
+        for term in label_term_dict[label]:
+            try:
+                A_LT[l][word_to_index[term]] = 1
+            except Exception as e:
+                print(label, e)
     return A_LT
 
 
@@ -158,6 +141,7 @@ if __name__ == "__main__":
     pkl_dump_dir = basepath + dataset
 
     df = pickle.load(open(pkl_dump_dir + "df_tokenized_limit_clean_parent.pkl", "rb"))
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_parent_uncon.json")
 
     word_vec = Word2Vec.load(pkl_dump_dir + "w2v.model_parent")
     # word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
@@ -166,7 +150,7 @@ if __name__ == "__main__":
     # U_D = get_UD(df, word_vec)
     # U_D = pickle.load(open(pkl_dump_dir + "U_D.pkl", "rb"))
     word_to_index, index_to_word, U_T = get_UT(word_vec)
-    A_LT = get_ALT(index_to_label, word_to_index)
+    A_LT = get_ALT(index_to_label, word_to_index, label_term_dict)
     U_L = get_UL(A_LT, U_T)
     A_TD = get_ATD(df, word_to_index)
     U_D = np.transpose(A_TD)
