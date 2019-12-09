@@ -154,12 +154,12 @@ def print_A_LT(A_LT, index_to_label, index_to_word):
 
 if __name__ == "__main__":
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "nyt/"
+    dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_tokenized_clean_parent.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_limit_clean_parent.pkl", "rb"))
 
-    word_vec = Word2Vec.load(pkl_dump_dir + "w2v.model")
+    word_vec = Word2Vec.load(pkl_dump_dir + "w2v.model_parent")
     # word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
     labels, label_to_index, index_to_label = get_distinct_labels(df)
 
