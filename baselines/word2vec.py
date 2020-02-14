@@ -26,10 +26,10 @@ if __name__ == "__main__":
     dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
-    with open(pkl_dump_dir + "df_tokens_limit.pkl", "rb") as handler:
+    with open(pkl_dump_dir + "df_tokenized_limit_clean_parent.pkl", "rb") as handler:
         df = pickle.load(handler)
 
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child_uncon.json")
 
     tagged_data = [word_tokenize(_d) for i, _d in enumerate(df["sentence"])]
     max_epochs = 20
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     alpha = 0.025
 
     model = Word2Vec(tagged_data, size=vec_size, alpha=alpha, min_count=1)
-    model.save(pkl_dump_dir + "w2v.model_child")
+    model.save(pkl_dump_dir + "w2v.model_parent")
     print("Model Saved")
 
     # model = Word2Vec.load(pkl_dump_dir + "w2v.model")

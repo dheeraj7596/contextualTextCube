@@ -17,6 +17,16 @@ def clean(sentence):
     return sent
 
 
+def avg_doc_length(train):
+    num_words = 0
+    for i in range(0, len(train.data)):
+        line = train.data[i]
+        line = line.strip().lower()
+        words = word_tokenize(line)
+        num_words += len(words)
+    return num_words
+
+
 def make_df(train, labels):
     sentences_list = []
     label_list = []

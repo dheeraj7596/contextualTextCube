@@ -25,7 +25,7 @@ def cluster(word_dir):
     km = KMeans(n_clusters=2, n_jobs=-1)
     km.fit(tok_vecs)
     cc = km.cluster_centers_
-    sim = cosine_similarity(cc[0].reshape(1, -1), cc[1].reshape(1, -1))[0][0]
+    sim = cosine_similarity(cc[2].reshape(1, -1), cc[0].reshape(1, -1))[0][0]
     print("SIMILARITY: ", sim)
 
 

@@ -4,7 +4,7 @@ from scipy.special import softmax
 from scipy.stats import entropy
 from gensim.models import Word2Vec
 import numpy as np
-from coc_data_utils import *
+from coc_data_utils import get_label_term_json
 import pickle
 
 

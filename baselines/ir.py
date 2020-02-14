@@ -8,10 +8,10 @@ if __name__ == "__main__":
     dataset = "20news/"
     pkl_dump_dir = basepath + dataset
 
-    with open(pkl_dump_dir + "df_tokenized_contextualized_clean.pkl", "rb") as handler:
+    with open(pkl_dump_dir + "df_tokenized_limit_clean_parent.pkl", "rb") as handler:
         df = pickle.load(handler)
 
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_parent_uncon.json")
     vectorizer = TfidfVectorizer()
     X = vectorizer.fit_transform(df["sentence"])
     X_arr = X.toarray()
