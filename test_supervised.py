@@ -46,8 +46,9 @@ def run(df):
     model.fit(X_train, y_train, validation_data=(X_val, y_val), nb_epoch=100, batch_size=256, callbacks=[es])
     print("****************** CLASSIFICATION REPORT ********************")
     pred = model.predict(X_test)
+    true_labels = get_from_one_hot(y_test, index_to_label)
     pred_labels = get_from_one_hot(pred, index_to_label)
-    print(classification_report(y_test, pred_labels))
+    print(classification_report(true_labels, pred_labels))
 
 
 if __name__ == "__main__":
