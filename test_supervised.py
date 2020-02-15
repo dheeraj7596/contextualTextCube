@@ -51,7 +51,7 @@ def run(df):
 
 
 if __name__ == "__main__":
-    basepath = "./data/"
+    basepath = "/data3/jingbo/dheeraj/"
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
