@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
     word_to_index, index_to_word = create_index_maps(df)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child.json")
 
     docfreq = get_doc_freq(df)
     inv_docfreq = get_inv_doc_freq(df, docfreq)
