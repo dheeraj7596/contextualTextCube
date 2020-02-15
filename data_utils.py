@@ -34,6 +34,14 @@ def create_train_dev(texts, labels, tokenizer, max_sentences=15, max_sentence_le
     return X_train, y_train, X_test, y_test
 
 
+def create_train_dev_test(texts, labels, tokenizer, max_sentences=15, max_sentence_length=100, max_words=20000):
+    data = prep_data(max_sentence_length, max_sentences, texts, tokenizer)
+
+    X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.1, random_state=42)
+    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.1, random_state=42)
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
+
 def prep_data(max_sentence_length, max_sentences, texts, tokenizer):
     data = np.zeros((len(texts), max_sentences, max_sentence_length), dtype='int32')
     documents = []
