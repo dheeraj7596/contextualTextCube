@@ -137,9 +137,11 @@ def disambiguate_seeds(df, labels, label_term_dict, label_to_index, index_to_lab
             interp_words = all_interpretations_seeds[word]
             values = []
             for w in interp_words:
-                values.append(E_LT[label_to_index[l]][word_to_index[w]])
-            right_interp = interp_words[values.index(max(values))]
-            final_label_term_dict[l].append(right_interp)
+                if w in word_to_index:
+                    values.append(E_LT[label_to_index[l]][word_to_index[w]])
+            if len(values) > 0:
+                right_interp = interp_words[values.index(max(values))]
+                final_label_term_dict[l].append(right_interp)
 
     return final_label_term_dict
 
