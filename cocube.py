@@ -180,6 +180,7 @@ if __name__ == "__main__":
     labels, label_to_index, index_to_label = get_distinct_labels(df)
     label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child.json")
     label_term_dict = select(label_term_dict, num_seed_words)
+    print_label_term_dict(label_term_dict, None)
 
     docfreq = get_doc_freq(df)
     inv_docfreq = get_inv_doc_freq(df, docfreq)
