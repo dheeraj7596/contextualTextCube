@@ -6,7 +6,16 @@ import pickle
 import numpy as np
 import sys
 import math
+import random
 import copy
+
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
+sess = tf.Session(config=config)
+set_session(sess)
 
 
 def get_popular_matrix(index_to_word, docfreq, inv_docfreq, label_count, label_docs_dict, label_to_index,
@@ -149,25 +158,34 @@ def update_label_term_dict(df, label_term_dict, pred_labels, label_to_index, ind
     return label_term_dict, components
 
 
+def select(label_term_dict, num_seed_words):
+    for l in label_term_dict:
+        random.shuffle(label_term_dict[l])
+        label_term_dict[l] = label_term_dict[l][:num_seed_words]
+    return label_term_dict
+
+
 if __name__ == "__main__":
     pre_trained = int(sys.argv[1])
-    flag = int(sys.argv[2])
+    flag = 2
+    num_seed_words = int(sys.argv[2])
     basepath = "/data3/jingbo/dheeraj/"
-    dataset = "20news/"
+    dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_parent.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords_child.pkl", "rb"))
     word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
 
     word_to_index, index_to_word = create_index(word_vec)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child.json")
+    label_term_dict = select(label_term_dict, num_seed_words)
 
     docfreq = get_doc_freq(df)
     inv_docfreq = get_inv_doc_freq(df, docfreq)
 
     # df = modify_df(df, docfreq, 5)
-    t = 10
+    t = 8
 
     for i in range(t):
         print("ITERATION ", i)
