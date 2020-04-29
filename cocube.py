@@ -173,12 +173,12 @@ if __name__ == "__main__":
     dataset = "nyt/"
     pkl_dump_dir = basepath + dataset
 
-    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords_child.pkl", "rb"))
+    df = pickle.load(open(pkl_dump_dir + "df_tokenized_contextualized_clean_removed_stopwords_parent.pkl", "rb"))
     word_vec = pickle.load(open(pkl_dump_dir + "word_vec_tokenized_clean_removed_stopwords.pkl", "rb"))
 
     word_to_index, index_to_word = create_index(word_vec)
     labels, label_to_index, index_to_label = get_distinct_labels(df)
-    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_child.json")
+    label_term_dict = get_label_term_json(pkl_dump_dir + "seedwords_parent.json")
     label_term_dict = select(label_term_dict, num_seed_words)
     print_label_term_dict(label_term_dict, None)
 
